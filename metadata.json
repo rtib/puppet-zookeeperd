@@ -1,0 +1,44 @@
+{
+  "name": "trepasi-zookeeperd",
+  "version": "2.0.0",
+  "author": "T. Repasi",
+  "summary": "Puppet module to realy automate configuration of a zookeeper cluster.",
+  "license": "Apache-2.0",
+  "source": "https://github.com/rtib/puppet-zookeeperd",
+  "issues_url": "https://github.com/rtib/puppet-zookeeperd/issues",
+  "dependencies": [
+    {
+      "name": "puppetlabs-stdlib",
+      "version_requirement": ">= 4.13.1 < 5.0.0"
+    }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "8"
+      ]
+    },
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "7.0"
+      ]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "16.04"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 4.7.0 < 6.0.0"
+    }
+  ],
+  "pdk-version": "1.0.1",
+  "template-url": "https://github.com/puppetlabs/pdk-module-template",
+  "template-ref": "heads/master"
+}
