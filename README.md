@@ -1,5 +1,6 @@
 
 # zookeeperd
+[![Build Status](https://travis-ci.org/rtib/puppet-zookeeperd.svg?branch=master)](https://travis-ci.org/rtib/puppet-zookeeperd)
 [![GitHub issues](https://img.shields.io/github/issues/rtib/puppet-zookeeperd.svg)](https://github.com/rtib/puppet-zookeeperd/issues)
 [![Twitter](https://img.shields.io/twitter/url/https/github.com/rtib/puppet-zookeeperd.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=%5Bobject%20Object%5D)
 
