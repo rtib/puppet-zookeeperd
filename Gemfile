@@ -30,7 +30,19 @@ group :development do
   gem "json", '= 1.8.1',                               require: false if Gem::Version.new(RUBY_VERSION.dup) == Gem::Version.new('2.1.9')
   gem "puppet-module-posix-default-r#{minor_version}", require: false, platforms: [:ruby]
   gem "puppet-module-posix-dev-r#{minor_version}",     require: false, platforms: [:ruby]
-  gem "puppet-strings"
+  gem "puppet-strings",                                require: false, platforms: [:ruby]
+  gem "puppet-blacksmith",                             require: false, platforms: [:ruby]
+  gem "rspec-puppet-facts",                            require: false, platforms: [:ruby]
+  gem "semantic_puppet",                               require: false, platforms: [:ruby]
+end
+group :system_tests do
+  gem "puppet-module-posix-system-r#{minor_version}",  require: false, platforms: [:ruby]
+  gem "beaker", '~> 3.13',                             require: false
+  gem "beaker-abs", '~> 0.1',                          require: false
+  gem "beaker-pe",                                     require: false
+  gem "beaker-hostgenerator",                          require: false
+  gem "beaker-rspec",                                  require: false
+  gem "rspec-retry",                                   require: false
 end
 
 puppet_version = ENV['PUPPET_GEM_VERSION']

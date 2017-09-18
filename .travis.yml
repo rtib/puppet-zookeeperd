@@ -26,6 +26,21 @@ matrix:
       env: CHECK="syntax lint"
     - rvm: 2.4.2
       env: CHECK=metadata_lint
+    - rvm: 2.4.2
+      env: PUPPET_INSTALL_TYPE=agent BEAKER_debug=true BEAKER_set=docker/debian-8
+      script: bundle exec rake beaker
+      services: docker
+      sudo: required
+    - rvm: 2.4.2
+      env: PUPPET_INSTALL_TYPE=agent BEAKER_debug=true BEAKER_set=docker/ubuntu-1604
+      script: bundle exec rake beaker
+      services: docker
+      sudo: required
+    - rvm: 2.4.2
+      env: PUPPET_INSTALL_TYPE=agent BEAKER_debug=true BEAKER_set=docker/centos-7
+      script: bundle exec rake beaker
+      services: docker
+      sudo: required
 branches:
   only:
     - master
