@@ -16,5 +16,13 @@ describe 'zookeeperd class' do
       expect(res.exit_code).to be_zero
     end
   end # it 'class should apply successfully on first shot'
+  context 'installation complete' do
+    packages = %w[zookeeper zookeeper-bin zookeeperd].freeze
+    packages.each do |pkg|
+      describe package(pkg) do
+        it { is_expected.to be_installed }
+      end
+    end
+  end # context 'installation complete'
   # ToDo: add tests here!
 end # describe 'zookeeperd class'

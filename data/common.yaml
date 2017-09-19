@@ -1,1 +1,3 @@
 ---
+zookeeperd::ensure: present
+zookeeperd::manage_packages: true

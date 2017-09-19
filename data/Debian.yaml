@@ -1,0 +1,5 @@
+---
+zookeeperd::package_names:
+  - zookeeper
+  - zookeeperd
+  - zookeeper-bin

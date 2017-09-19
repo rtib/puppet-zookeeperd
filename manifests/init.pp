@@ -6,7 +6,11 @@
 #
 # @example
 #   include zookeeperd
-class zookeeperd {
+class zookeeperd (
+  Enum['present', 'absent'] $ensure,
+  Boolean                   $manage_packages,
+  Array[String]             $package_names,
+) {
   contain zookeeperd::install
   contain zookeeperd::config
   contain zookeeperd::service

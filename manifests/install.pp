@@ -7,4 +7,9 @@
 # @example
 #   include zookeeperd::install
 class zookeeperd::install {
+  if $zookeeperd::manage_packages {
+    package { $zookeeperd::package_names:
+      ensure => $zookeeperd::ensure,
+    }
+  }
 }
