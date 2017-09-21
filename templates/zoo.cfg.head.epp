@@ -1,0 +1,10 @@
+# This file is controlled by Puppet module trepasi-zookeeperd
+# DO NOT EDIT!
+
+tickTime=<%= $zookeeperd::tick_time %>
+initLimit=<%= $zookeeperd::init_limit %>
+syncLimit=<%= $zookeeperd::sync_limit %>
+dataDir=<%= $zookeeperd::data_dir %>
+maxClientCnxns=<%= $zookeeperd::max_client_cnxns %>
+clientPort=<%= $zookeeperd::client_port %>
+forceSync=<%= $zookeeperd::force_sync ? { true => "yes", default => "no" } %>
