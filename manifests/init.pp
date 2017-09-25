@@ -21,7 +21,6 @@ class zookeeperd (
   Integer                  $max_client_cnxns,
   Integer[1025,65534]      $client_port,
   Boolean                  $force_sync,
-  
 ) {
   contain zookeeperd::install
   contain zookeeperd::config

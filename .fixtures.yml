@@ -2,5 +2,8 @@
 # See https://github.com/puppetlabs/puppetlabs_spec_helper#using-fixtures for details
 ---
 fixtures:
+  symlinks:
+    my_module: "#{source_dir}"
   forge_modules:
-#     stdlib: "puppetlabs/stdlib"
+     stdlib: "puppetlabs/stdlib"
+     concat: "puppetlabs/concat"
