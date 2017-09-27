@@ -14,8 +14,11 @@ class zookeeperd::config {
     mode   => '0755',
   }
   file { "${zookeeperd::data_dir}/myid":
-  ensure => file,
-  content => inline_epp()
+    ensure  => file,
+    content => "${zookeeperd::myid}",
+    owner   => $zookeeperd::user,
+    group   => $zookeeperd::group,
+    mode    => '0755',
   }
   concat { $zookeeperd::cfg_path:
     ensure         => $zookeeperd::ensure,
@@ -23,10 +26,22 @@ class zookeeperd::config {
     ensure_newline => true,
   }
   concat::fragment { 'zoo.cfg head':
-    ensure => $zookeeperd::ensure,
+    target  => $zookeeperd::cfg_path,
     content => epp('zookeeperd/zoo.cfg.head.epp'),
     order   => 1,
   }
-  @@zookeeper::node{ "${zookeeperd::cluster} node ${zookeeperd::ip}":
+  if $zookeeperd::enable_autoconfig {
+    @@zookeeperd::node{ "${zookeeperd::ensamble} node ${zookeeperd::ip}":
+      ensamble => $zookeeperd::ensamble,
+      cfgtgt   => $zookeeperd::cfg_path,
+      nodeid   => $zookeeperd::myid,
+      nodename => $zookeeperd::nodename,
+    }
+  } else {
+    $zookeeperd::nodes.each |String $name, Hash $params| {
+      zookeeperd::node{ $name:
+        * => $params,
+      }
+    }
   }
 }

@@ -4,6 +4,7 @@ describe 'zookeeperd class' do
   it 'class should apply successfully on first shot' do
     manifest = %(
       class { 'zookeeperd':
+        ensamble => 'Docker test cluster',
       }
     )
     # first apply should not log any error message
@@ -24,5 +25,27 @@ describe 'zookeeperd class' do
       end
     end
   end # context 'installation complete'
-  # ToDo: add tests here!
+  context 'configuration' do
+    describe file('/var/lib/zookeeper/myid') do
+      it { is_expected.to be_file }
+      its(:content) { is_expected.to match %r{\d+} }
+    end
+    describe file('/var/lib/zookeeper/version-2') do
+      it { is_expected.to be_directory }
+      it { is_expected.to be_owned_by 'zookeeper' }
+      it { is_expected.to be_grouped_into 'zookeeper' }
+      it { is_expected.to be_mode 755 }
+    end
+    describe file('/etc/zookeeper/conf/zoo.cfg') do
+      it { is_expected.to be_file }
+      its(:content) { is_expected.to match %r{tickTime=2000} }
+      its(:content) { is_expected.to match %r{initLimit=10} }
+      its(:content) { is_expected.to match %r{syncLimit=5} }
+      its(:content) { is_expected.to match %r{dataDir=/var/lib/zookeeper} }
+      its(:content) { is_expected.to match %r{maxClientCnxns=500} }
+      its(:content) { is_expected.to match %r{clientPort=2181} }
+      its(:content) { is_expected.to match %r{forceSync=yes} }
+    end
+  end
+  # TODO: add tests here!
 end # describe 'zookeeperd class'

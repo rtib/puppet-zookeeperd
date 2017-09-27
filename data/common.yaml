@@ -7,3 +7,4 @@ zookeeperd::sync_limit: 5
 zookeeperd::max_client_cnxns: 500
 zookeeperd::client_port: 2181
 zookeeperd::force_sync: true
+zookeeperd::enable_autoconfig: false
