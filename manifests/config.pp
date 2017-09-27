@@ -15,7 +15,10 @@ class zookeeperd::config {
   }
   file { "${zookeeperd::data_dir}/myid":
     ensure  => file,
+    # lint:ignore:only_variable_string
+    # that's the prefered way to cast, according to https://docs.puppet.com/puppet/5.2/lang_data_number.html#converting-numbers-to-strings
     content => "${zookeeperd::myid}",
+    # lint:endignore
     owner   => $zookeeperd::user,
     group   => $zookeeperd::group,
     mode    => '0755',
