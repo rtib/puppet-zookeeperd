@@ -21,6 +21,11 @@ class zookeeperd (
   Integer                     $max_client_cnxns,
   Integer[1025,65534]         $client_port,
   Boolean                     $force_sync,
+  # service management
+  Boolean                     $manage_service,
+  String                      $service_name,
+  Boolean                     $service_enabled,
+  Boolean                     $service_running,
   # autoconfiguration parameters
   String                      $ensamble,
   Boolean                     $enable_autoconfig,

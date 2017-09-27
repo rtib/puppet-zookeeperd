@@ -8,3 +8,6 @@ zookeeperd::max_client_cnxns: 500
 zookeeperd::client_port: 2181
 zookeeperd::force_sync: true
 zookeeperd::enable_autoconfig: false
+zookeeperd::manage_service: true
+zookeeperd::service_enabled: true
+zookeeperd::service_running: true

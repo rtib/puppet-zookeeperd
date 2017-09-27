@@ -47,5 +47,18 @@ describe 'zookeeperd class' do
       its(:content) { is_expected.to match %r{forceSync=yes} }
     end
   end
+  context 'service control' do
+    describe service('zookeeper') do
+      it { is_expected.to be_enabled }
+      it { is_expected.to be_running }
+    end
+  end
+  context 'client port listening' do
+    describe port(2181) do
+      it 'eventually be listening', retry: 10, retry_wait: 5 do
+        is_expected.to be_listening.with('tcp')
+      end
+    end
+  end
   # TODO: add tests here!
 end # describe 'zookeeperd class'
