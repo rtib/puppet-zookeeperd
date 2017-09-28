@@ -31,33 +31,42 @@ describe 'zookeeperd class' do
       its(:content) { is_expected.to match %r{\d+} }
     end
     describe file('/var/lib/zookeeper/version-2') do
-      it { is_expected.to be_directory }
-      it { is_expected.to be_owned_by 'zookeeper' }
-      it { is_expected.to be_grouped_into 'zookeeper' }
-      it { is_expected.to be_mode 755 }
+      it do
+        is_expected.to be_directory
+        is_expected.to be_owned_by 'zookeeper'
+        is_expected.to be_grouped_into 'zookeeper'
+        is_expected.to be_mode 755
+      end
     end
     describe file('/etc/zookeeper/conf/zoo.cfg') do
       it { is_expected.to be_file }
-      its(:content) { is_expected.to match %r{tickTime=2000} }
-      its(:content) { is_expected.to match %r{initLimit=10} }
-      its(:content) { is_expected.to match %r{syncLimit=5} }
-      its(:content) { is_expected.to match %r{dataDir=/var/lib/zookeeper} }
-      its(:content) { is_expected.to match %r{maxClientCnxns=500} }
-      its(:content) { is_expected.to match %r{clientPort=2181} }
-      its(:content) { is_expected.to match %r{forceSync=yes} }
+      its(:content) do
+        is_expected.to match %r{tickTime=2000}
+        is_expected.to match %r{initLimit=10}
+        is_expected.to match %r{syncLimit=5}
+        is_expected.to match %r{dataDir=/var/lib/zookeeper}
+        is_expected.to match %r{maxClientCnxns=500}
+        is_expected.to match %r{clientPort=2181}
+        is_expected.to match %r{forceSync=yes}
+      end
     end
   end
   context 'service control' do
     describe service('zookeeper') do
-      it { is_expected.to be_enabled }
+      it do 
+        is_expected.to be_enabled
+        is_expected.to be_running
+      end
+    end
+    describe process('java'), retry:10, retry_wait: 5 do
       it { is_expected.to be_running }
+      its(:user) { is_expected.to eq 'zookeeper' }
+      its(:args) { is_expected.to match %r{org.apache.zookeeper.server.quorum.QuorumPeerMain} }
     end
   end
   context 'client port listening' do
-    describe port(2181) do
-      it 'eventually be listening', retry: 10, retry_wait: 5 do
-        is_expected.to be_listening.with('tcp')
-      end
+    describe port(2181), retry: 10, retry_wait: 5 do
+      it { is_expected.to be_listening.with('tcp') }
     end
   end
   # TODO: add tests here!
