@@ -33,12 +33,14 @@ matrix:
       services: docker
       run_opts: "--privileged"
       sudo: required
+      DOCKER_VERSION: "1.9.1-0~trusty"
     - rvm: 2.4.2
       env: PUPPET_INSTALL_TYPE=agent BEAKER_debug=true BEAKER_set=docker/ubuntu-1604
       script: bundle exec rake beaker
       services: docker
       run_opts: "--privileged"
       sudo: required
+      DOCKER_VERSION: "1.9.1-0~trusty"
 branches:
   only:
     - master
