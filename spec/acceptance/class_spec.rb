@@ -53,12 +53,12 @@ describe 'zookeeperd class' do
   end
   context 'service control' do
     describe service('zookeeper') do
-      it do 
+      it do
         is_expected.to be_enabled
         is_expected.to be_running
       end
     end
-    describe process('java'), retry:10, retry_wait: 5 do
+    describe process('java'), retry: 10, retry_wait: 5 do
       it { is_expected.to be_running }
       its(:user) { is_expected.to eq 'zookeeper' }
       its(:args) { is_expected.to match %r{org.apache.zookeeper.server.quorum.QuorumPeerMain} }
