@@ -72,7 +72,7 @@
 </div>
 
   <h2>Summary</h2>
-  A short summary of the purpose of this class
+  control the configuration of the node
 
 <h2>Overview</h2>
 <div class="docstring">
@@ -80,20 +80,12 @@
     
 <p>zookeeperd::config</p>
 
-<p>A description of what this class does</p>
+<p>Internal class do not use of its own.</p>
 
   </div>
 </div>
 <div class="tags">
   
-  <div class="examples">
-    <p class="tag_title">Examples:</p>
-    
-      
-      <pre class="example code"><code><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_zookeeperd'>zookeeperd</span><span class='op'>::</span><span class='id identifier rubyid_config'>config</span></code></pre>
-    
-  </div>
-
 
 </div><div class="method_details_list">
   <table class="source_code">
@@ -102,13 +94,93 @@
         <pre class="lines">
 
 
+7
+8
 9
-10</pre>
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/config.pp', line 9</span>
+        <pre class="code"><span class="info file"># File 'manifests/config.pp', line 7</span>
 
 class zookeeperd::config {
+  file { [$zookeeperd::data_dir, &quot;${zookeeperd::data_dir}/version-2&quot;]:
+    ensure =&gt; directory,
+    owner  =&gt; $zookeeperd::user,
+    group  =&gt; $zookeeperd::group,
+    mode   =&gt; &#39;0755&#39;,
+  }
+  file { &quot;${zookeeperd::data_dir}/myid&quot;:
+    ensure  =&gt; file,
+    # lint:ignore:only_variable_string
+    # that&#39;s the prefered way to cast, according to https://docs.puppet.com/puppet/5.2/lang_data_number.html#converting-numbers-to-strings
+    content =&gt; &quot;${zookeeperd::myid}&quot;,
+    # lint:endignore
+    owner   =&gt; $zookeeperd::user,
+    group   =&gt; $zookeeperd::group,
+    mode    =&gt; &#39;0755&#39;,
+  }
+  concat { $zookeeperd::cfg_path:
+    ensure         =&gt; $zookeeperd::ensure,
+    order          =&gt; numeric,
+    ensure_newline =&gt; true,
+  }
+  concat::fragment { &#39;zoo.cfg head&#39;:
+    target  =&gt; $zookeeperd::cfg_path,
+    content =&gt; epp(&#39;zookeeperd/zoo.cfg.head.epp&#39;),
+    order   =&gt; 1,
+  }
+  if $zookeeperd::enable_autoconfig {
+    @@zookeeperd::node{ &quot;${zookeeperd::ensamble} node ${zookeeperd::ip}&quot;:
+      ensamble =&gt; $zookeeperd::ensamble,
+      cfgtgt   =&gt; $zookeeperd::cfg_path,
+      nodeid   =&gt; $zookeeperd::myid,
+      nodename =&gt; $zookeeperd::nodename,
+    }
+  } else {
+    $zookeeperd::nodes.each |String $name, Hash $params| {
+      zookeeperd::node{ $name:
+        * =&gt; $params,
+      }
+    }
+  }
 }</pre>
       </td>
     </tr>
@@ -117,9 +189,9 @@ class zookeeperd::config {
 </div>
 
       <div id="footer">
-  Generated on Fri Sep 15 16:56:09 2017 by
+  Generated on Sat Sep 30 00:53:08 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.9 (ruby-2.4.1).
+  0.9.9 (ruby-2.4.2).
 </div>
 
     </div>

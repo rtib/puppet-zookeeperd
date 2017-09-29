@@ -72,7 +72,7 @@
 </div>
 
   <h2>Summary</h2>
-  A short summary of the purpose of this class
+  Main class of puppet module configuring nodes of an zookeeper ensamble.
 
 <h2>Overview</h2>
 <div class="docstring">
@@ -80,7 +80,7 @@
     
 <p>zookeeperd</p>
 
-<p>A description of what this class does</p>
+<p>Puppet module to configure the nodes of an zookeeper ensamble.</p>
 
   </div>
 </div>
@@ -92,7 +92,408 @@
       
       <pre class="example code"><code><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_zookeeperd'>zookeeperd</span></code></pre>
     
+      
+      <pre class="example code"><code>zookeeperd::ensamble: &#39;Awesamly important, dynamically growing zookeeper cluster&#39;
+zookeeperd::enable_autoconfig: true</code></pre>
+    
   </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ensure</span>
+      
+      
+        <span class='type'>(<tt>Enum['present', 'absent']</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>add or remove this node from ensamble</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>manage_packages</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>enable puppet to manage package installation</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>package_names</span>
+      
+      
+        <span class='type'>(<tt>Array[String]</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>list of packages to be installed</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>data_dir</span>
+      
+      
+        <span class='type'>(<tt>Stdlib::Absolutepath</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>path to the data directory of zookeeper</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>user</span>
+      
+      
+        <span class='type'>(<tt>Variant[Integer,String]</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>username of zookeeper service</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>group</span>
+      
+      
+        <span class='type'>(<tt>Variant[Integer,String]</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>groupname of zookeeper service</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cfg_path</span>
+      
+      
+        <span class='type'>(<tt>Stdlib::Absolutepath</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>path to configuration directory</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>tick_time</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>zookeeper configuration parameter</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>init_time</span>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>zookeeper configuration parameter</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>sync_time</span>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>zookeeper configuration parameter</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>max_client_cnxns</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>zookeeper configuration parameter</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>client_port</span>
+      
+      
+        <span class='type'>(<tt>Integer[1025,65534]</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>zookeeper configuration parameter</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>force_sync</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>zookeeper configuration parameter</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>manage_service</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>enable puppet to manage the zookeeper serivce</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>service_name</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>name of the service to control</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>service_enabled</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>enable service at boot time</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>service_runnint</span>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>ensure running of the service</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>ensamble</span>
+      
+      
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>name of the ensamble</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>enable_autoconfig</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>enable puppet to manage cluster configuration</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>nodes</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>list of nodes, if autoconfiguration disable</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>myid</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>$facts[&#39;zookeeperd&#39;][&#39;myid&#39;]</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>node id of zookeeper instance</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>nodename</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>$facts[&#39;networking&#39;][&#39;fqdn&#39;]</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>fqdn of this node</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>init_limit</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>sync_limit</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>service_running</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
 
 
 </div><div class="method_details_list">
@@ -102,20 +503,74 @@
         <pre class="lines">
 
 
-9
-10
-11
-12
-13
-14
-15
-16
-17</pre>
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 9</span>
+        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 36</span>
 
-class zookeeperd {
+class zookeeperd (
+  Enum[&#39;present&#39;, &#39;absent&#39;]   $ensure,
+  Boolean                     $manage_packages,
+  Array[String]               $package_names,
+  Stdlib::Absolutepath        $data_dir,
+  Variant[Integer,String]     $user,
+  Variant[Integer,String]     $group,
+  Stdlib::Absolutepath        $cfg_path,
+  # zoo.cfg general params
+  Integer                     $tick_time,
+  Integer                     $init_limit,
+  Integer                     $sync_limit,
+  Integer                     $max_client_cnxns,
+  Integer[1025,65534]         $client_port,
+  Boolean                     $force_sync,
+  # service management
+  Boolean                     $manage_service,
+  String                      $service_name,
+  Boolean                     $service_enabled,
+  Boolean                     $service_running,
+  # cluster configuration parameters
+  Boolean                     $enable_autoconfig,
+  Optional[String]            $ensamble = undef,
+  Hash                        $nodes = {},
+  # Parameter having facts default
+  Integer                     $myid = $facts[&#39;zookeeperd&#39;][&#39;myid&#39;],
+  String                      $nodename = $facts[&#39;networking&#39;][&#39;fqdn&#39;],
+) {
   contain zookeeperd::install
   contain zookeeperd::config
   contain zookeeperd::service
@@ -131,9 +586,9 @@ class zookeeperd {
 </div>
 
       <div id="footer">
-  Generated on Fri Sep 15 16:56:09 2017 by
+  Generated on Sat Sep 30 00:53:08 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.9 (ruby-2.4.1).
+  0.9.9 (ruby-2.4.2).
 </div>
 
     </div>
