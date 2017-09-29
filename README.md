@@ -8,7 +8,6 @@
 
 1. [Description](#description)
 2. [Setup - The basics of getting started with zookeeperd](#setup)
-    * [What zookeeperd affects](#what-zookeeperd-affects)
     * [Setup requirements](#setup-requirements)
     * [Beginning with zookeeperd](#beginning-with-zookeeperd)
 3. [Usage - Configuration options and additional functionality](#usage)
@@ -18,48 +17,63 @@
 
 ## Description
 
-Start with a one- or two-sentence summary of what the module does and/or what problem it solves. This is your 30-second elevator pitch for your module. Consider including OS/Puppet version it works with.       
+Yet another puppet module configuring zookeeper ...
 
-You can give more descriptive information in a second paragraph. This paragraph should answer the questions: "What does this module *do*?" and "Why would I use it?" If your module has a range of functionality (installation, configuration, management, etc.), this is the time to mention it.
+Unique with this module are two features making zookeeper configuration usually very painful. First, all zookeeper nodes need a unique ID to be given. This module provide a custom fact which calculates a suitable ID for every node. Second, all zookeeper nodes need to get the list of all nodes belonging to its ensamble. This module enables autoconfiguration by exporting node definitions of every node and building the server list for zookeeper by collecting those exported node definitions. Utilizing both features will automate zookeeper configuration by taking away the most painful parts and eliminate the node ID and the  list of servers from your puppet manifests and hiera.
 
 ## Setup
 
-### What zookeeperd affects **OPTIONAL**
+### Setup Requirements
 
-If it's obvious what your module touches, you can skip this section. For example, folks can probably figure out that your mysql_instance module affects their MySQL instances.
+It is presumed that zookeeper packages are available on your system via regular package management.  This module won't configure any package management repositories.
 
-If there's more that they should know about, though, this is the place to mention:
+Pluginsync needs to be enabled on your puppet deployment in order to get the custom fact working.
 
-* Files, packages, services, or operations that the module will alter, impact, or execute.
-* Dependencies that your module automatically installs.
-* Warnings or other important notices.
-
-### Setup Requirements **OPTIONAL**
-
-If your module requires anything extra before setting up (pluginsync enabled, another module, etc.), mention it here. 
-  
-If your most recent release breaks compatibility or requires particular steps for upgrading, you might want to include an additional "Upgrading" section here.
+Stored config needs to be enabled on your puppetmaster infrastructure in order to get autoconfiguration feature working. Also, it is strongly recommended to use PuppetDB and consider it as a critical part of your configuration management system. Be aware, that manipulation, inconsistency and data loss from your PuppetDB may cause this module to disrupt your zookeeper clusters.
 
 ### Beginning with zookeeperd  
 
-The very basic steps needed for a user to get the module up and running. This can include setup steps, if necessary, or it can be an example of the most basic use of the module.
+Install the module and its dependencies to your environment. Include the module to your manifests. You may utilize hiera to hold configuration parameter. The module carries most of its default values using hiera in module, which also serve as an example.
 
 ## Usage
 
-This section is where you describe how to customize, configure, and do the fancy stuff with your module here. It's especially helpful if you include usage examples and code samples for doing things with your module.
+To create a zookeeper cluster, the easies way is, to include the module to your manifest, enable autoconfiguration and set an ensamble name  on all nodes of the cluster.
+
+```puppet
+class{ zookeeperd:
+  ensamble          => 'Awesamly easy way to your zookeeper cluster',
+  enable_autoconfig => true,
+}
+````
+
+The above example will install zookeeper to all nodes this manifest applies to and configure all instances having the same ensamble name to one cluster. Note, that puppet needs at least two runs to get the configuration ready: the first run will export the node definitions, the second will collect all nodes.
+
+If you don't trust your PuppetDB, or does not want stored configs on your PupppetMaster, you may add pass the list of nodes to the module through nodes parameter.
+
+```puppet
+class{ zookeeperd:
+  myid  => $id_of_this_node,
+  nodes => {
+    'first' => {
+      nodeid => 1,
+      nodename => 'first.zk.example.org',
+    },
+    'second' => {
+      nodeid => 2,
+      nodename => 'first.zk.example.org',
+    }
+  }
+}
+````
+
+### Using zookeeperd fact
+The module provides a custom fact which calculates a unique ID for all nodes. This fact is available ```$facts['zookeeperd']['myid']```. The myid parameter of the module defaults to this value. The value is calculated from the IP address (```$facts['networking']['ip]```) of the node by converting it to a 32 bit integer.
+
+Zookeeper documentation, however, states myid must between 1..255, the software itself is treating this as unsigned long, and it is not used for any logic nor arithmetic.
 
 ## Reference
 
-Users need a complete list of your module's classes, types, defined types providers, facts, and functions, along with the parameters for each. You can provide this list either via Puppet Strings code comments or as a complete list in the README Reference section.
-
-* If you are using Puppet Strings code comments, this Reference section should include Strings information so that your users know how to access your documentation.
-
-* If you are not using Puppet Strings, include a list of all of your classes, defined types, and so on, along with their parameters. Each element in this listing should include:
-
-  * The data type, if applicable.
-  * A description of what the element does.
-  * Valid values, if the data type doesn't make it obvious.
-  * Default value, if any.
+The module code is documented with puppet-strings. Visit https://rtib.github.io/puppet-zookeeperd/ to access detailed code documentation.
 
 ## Limitations
 
@@ -67,7 +81,11 @@ This is where you list OS compatibility, version compatibility, etc. If there ar
 
 ## Development
 
-Since your module is awesome, other users will want to play with it. Let them know what the ground rules for contributing are.
+Feature requests, bug reports are welcome, pull requests are awesome. 
+
+##Donate
+If you like this project feel free to support via Bitcoin
+[![donate.png](donate.png)](bitcoin:14aHsE36fPdgc2X4envRUVH7WpRPSyf4TH?label=donate%3A%20PuppetForge%20trepasi%20zookeeperd)
 
 ## Release Notes/Contributors/Etc. **Optional**
 

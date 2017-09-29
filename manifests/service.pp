@@ -1,11 +1,9 @@
 # zookeeperd::service
 #
-# A description of what this class does
+# Internal class do not use of its own.
 #
-# @summary A short summary of the purpose of this class
+# @summary control the configuration of the node
 #
-# @example
-#   include zookeeperd::service
 class zookeeperd::service {
   if $zookeeperd::manage_service {
     service { $zookeeperd::service_name:
