@@ -73,7 +73,7 @@ Zookeeper documentation, however, states myid must between 1..255, the software 
 
 ## Reference
 
-The module code is documented with puppet-strings. Visit https://rtib.github.io/puppet-zookeeperd/ to access detailed code documentation.
+The module code is documented using puppet-strings. Visit https://rtib.github.io/puppet-zookeeperd/ to access detailed code documentation.
 
 ## Limitations
 
@@ -81,12 +81,14 @@ This is where you list OS compatibility, version compatibility, etc. If there ar
 
 ## Development
 
-Feature requests, bug reports are welcome, pull requests are awesome. 
+Puppet modules on the Puppet Forge are open projects, and community contributions are essential for keeping them great. Please follow the usual guidelines when contributing changes.
+1. fork the repository on GitHub
+1. make your improvements, preferably to a feature branch
+1. rebase your changes to the head of the master branch
+1. squash your changes into a single commit
+1. file a pull request and check the result of Travis-CI tests
 
 ##Donate
+
 If you like this project feel free to support via Bitcoin
 [![donate.png](donate.png)](bitcoin:14aHsE36fPdgc2X4envRUVH7WpRPSyf4TH?label=donate%3A%20PuppetForge%20trepasi%20zookeeperd)
-
-## Release Notes/Contributors/Etc. **Optional**
-
-If you aren't using changelog, put your release notes here (though you should consider using changelog). You can also add any additional sections you feel are necessary or important to include here. Please use the `## ` header. 
