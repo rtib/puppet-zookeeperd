@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v2.1.1](https://github.com/rtib/puppet-zookeeperd/tree/v2.1.1) (2017-10-02)
+[Full Changelog](https://github.com/rtib/puppet-zookeeperd/compare/v2.1.0...v2.1.1)
+
+**Closed issues:**
+
+- Need support for Puppet 4.7.0 [\#1](https://github.com/rtib/puppet-zookeeperd/issues/1)
+
 ## [v2.1.0](https://github.com/rtib/puppet-zookeeperd/tree/v2.1.0) (2017-10-02)
 [Full Changelog](https://github.com/rtib/puppet-zookeeperd/compare/v2.0.1...v2.1.0)
 
