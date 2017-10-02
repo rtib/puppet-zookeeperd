@@ -33,8 +33,8 @@ class zookeeperd::config {
   }
   if $zookeeperd::enable_autoconfig {
     @@zookeeperd::node{ "${zookeeperd::ensamble} node ${zookeeperd::ip}":
-      ensamble => $zookeeperd::ensamble,
       ensure   => $zookeeperd::ensure,
+      ensamble => $zookeeperd::ensamble,
       cfgtgt   => $zookeeperd::cfg_path,
       nodeid   => $zookeeperd::myid,
       nodename => $zookeeperd::nodename,
