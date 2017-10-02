@@ -19,15 +19,15 @@
 # @param group groupname of zookeeper service
 # @param cfg_path path to configuration directory
 # @param tick_time zookeeper configuration parameter
-# @param init_time zookeeper configuration parameter
-# @param sync_time zookeeper configuration parameter
+# @param init_limit zookeeper configuration parameter
+# @param sync_limit zookeeper configuration parameter
 # @param max_client_cnxns zookeeper configuration parameter
 # @param client_port zookeeper configuration parameter
 # @param force_sync zookeeper configuration parameter
 # @param manage_service enable puppet to manage the zookeeper serivce
 # @param service_name name of the service to control
 # @param service_enabled enable service at boot time
-# @param service_runnint ensure running of the service
+# @param service_running ensure running of the service
 # @param ensamble name of the ensamble
 # @param enable_autoconfig enable puppet to manage cluster configuration
 # @param nodes list of nodes, if autoconfiguration disable

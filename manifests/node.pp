@@ -21,7 +21,7 @@
 #
 # @param nodeid node id (myid) of the zookeeper node to be added to this configuration
 # @param nodename fqdn or IP address of the node to be added
-# @param ensure 
+# @param ensure ensure meta-parameter to add or remove this node
 # @param cfgtgt path to the configuration file to which this server should be added
 # @param ensamble name of the ensamble this node belongs to (used with autoconfig)
 # @param leaderport leader port parameter of the server
