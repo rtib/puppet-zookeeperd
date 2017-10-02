@@ -21,19 +21,21 @@
 #
 # @param nodeid node id (myid) of the zookeeper node to be added to this configuration
 # @param nodename fqdn or IP address of the node to be added
+# @param ensure 
 # @param cfgtgt path to the configuration file to which this server should be added
 # @param ensamble name of the ensamble this node belongs to (used with autoconfig)
 # @param leaderport leader port parameter of the server
 # @param electionport port used for leader election
 define zookeeperd::node(
-  Integer          $nodeid,
-  String           $nodename,
-  String           $cfgtgt = $zookeeperd::cfg_path,
-  Optional[String] $ensamble = undef,
-  Integer          $leaderport = 2888,
-  Integer          $electionport = 3888,
+  Integer                   $nodeid,
+  String                    $nodename,
+  Enum['present', 'absent'] $ensure = 'present',
+  String                    $cfgtgt = $zookeeperd::cfg_path,
+  Optional[String]          $ensamble = undef,
+  Integer                   $leaderport = 2888,
+  Integer                   $electionport = 3888,
 ) {
-  if !defined(Concat::Fragment["zoo.cfg node entry for ${nodename}"]) {
+  if !defined(Concat::Fragment["zoo.cfg node entry for ${nodename}"]) and $ensure == 'present' {
     concat::fragment { "zoo.cfg node entry for ${nodename}":
     target  => $cfgtgt,
     content => "server.${nodeid}=${nodename}:${leaderport}:${electionport}",
