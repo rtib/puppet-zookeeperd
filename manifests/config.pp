@@ -39,6 +39,7 @@ class zookeeperd::config {
       nodeid   => $zookeeperd::myid,
       nodename => $zookeeperd::nodename,
     }
+    Zookeeperd::Node <<| ensamble == $zookeeperd::ensamble and ensure == 'present' |>>
   } else {
     $zookeeperd::nodes.each |String $name, Hash $params| {
       zookeeperd::node{ $name:
