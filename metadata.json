@@ -37,6 +37,7 @@
       "version_requirement": ">= 4.7.0 < 6.0.0"
     }
   ],
+  "data_provider": "hiera",
   "pdk-version": "1.0.1",
   "template-url": "https://github.com/puppetlabs/pdk-module-template",
   "template-ref": "heads/master"
