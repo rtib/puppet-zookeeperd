@@ -33,6 +33,7 @@ group :development do
   gem "puppet-module-posix-dev-r#{minor_version}",     require: false, platforms: [:ruby]
   gem "puppet-strings",                                require: false, platforms: [:ruby]
   gem "puppet-blacksmith",                             require: false, platforms: [:ruby]
+  gem "semantic_puppet",                               require: false, platforms: [:ruby]
 end
 group :system_tests do
   gem "puppet-module-posix-system-r#{minor_version}",  require: false, platforms: [:ruby]
