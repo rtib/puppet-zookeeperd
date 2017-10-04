@@ -1,6 +1,6 @@
 {
   "name": "trepasi-zookeeperd",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "author": "T. Repasi",
   "summary": "Puppet module to realy automate configuration of a zookeeper cluster.",
   "license": "Apache-2.0",
