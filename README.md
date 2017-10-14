@@ -91,4 +91,4 @@ Puppet modules on the Puppet Forge are open projects, and community contribution
 ## Donate
 
 If you like this project feel free to support via Bitcoin
-[![BitCoin Wallet 14aHsE36fPdgc2X4envRUVH7WpRPSyf4TH ](https://github.com/rtib/puppet-zookeeperd/raw/master/donate.png)](bitcoin:14aHsE36fPdgc2X4envRUVH7WpRPSyf4TH?label=donate%3A%20PuppetForge%20trepasi%20zookeeperd)
+[![BitCoin Wallet 3Cmcvt2zZ4owgW6SBUMXHkNvJu4mq6GoNu ](https://github.com/rtib/puppet-zookeeperd/raw/master/donate.png)](bitcoin:3Cmcvt2zZ4owgW6SBUMXHkNvJu4mq6GoNu?label=donate%3A%20PuppetForge%20trepasi%20zookeeperd)
