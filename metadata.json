@@ -2,7 +2,7 @@
   "name": "trepasi-zookeeperd",
   "version": "2.2.2",
   "author": "T. Repasi",
-  "summary": "Puppet module to realy automate configuration of a zookeeper cluster.",
+  "summary": "Puppet module to really automate configuration of a zookeeper cluster.",
   "license": "Apache-2.0",
   "project_page": "https://github.com/rtib/puppet-zookeeperd",
   "source": "https://github.com/rtib/puppet-zookeeperd.git",

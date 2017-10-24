@@ -19,13 +19,13 @@
 
 Yet another puppet module configuring zookeeper ...
 
-Unique with this module are two features making zookeeper configuration usually very painful. First, all zookeeper nodes need a unique ID to be given. This module provide a custom fact which calculates a suitable ID for every node. Second, all zookeeper nodes need to get the list of all nodes belonging to its ensamble. This module enables autoconfiguration by exporting node definitions of every node and building the server list for zookeeper by collecting those exported node definitions. Utilizing both features will automate zookeeper configuration by taking away the most painful parts and eliminate the node ID and the  list of servers from your puppet manifests and hiera.
+Unique with this module are two features making the usually very painful zookeeper configuration as easy as it can be. First, as all zookeeper nodes need a unique ID to be given, this module provides a custom fact which calculatint a suitable value. Second, all zookeeper nodes need to get the list of all nodes belonging to its ensamble. By making use of puppet's exported resource feature, node definitions are exported and collected to building the server list. Utilizing both features will automate zookeeper configuration and eliminate the node ID and the list of servers from your puppet manifests and hiera.
 
 ## Setup
 
 ### Setup Requirements
 
-It is presumed that zookeeper packages are available on your system via regular package management.  This module won't configure any package management repositories.
+It is presumed that zookeeper packages are available on your system via regular package management. This module won't configure any package management repositories.
 
 Pluginsync needs to be enabled on your puppet deployment in order to get the custom fact working.
 
