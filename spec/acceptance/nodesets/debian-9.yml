@@ -1,0 +1,15 @@
+---
+HOSTS:
+  debian-9-x64:
+    platform: debian-9-amd64
+    hypervisor: docker
+    image: debian:9
+    docker_preserve_image: true
+    docker_cmd: '["/sbin/init"]'
+    docker_image_commands:
+      - 'cat /etc/apt/sources.list | cut -d" " -f-3 | sed "s/$/ contrib non-free/g" > /etc/apt/sources.list.d/extra.list'
+      - 'apt-get update && apt-get install -y cron locales-all net-tools wget systemd-sysv git'
+      - 'systemctl mask getty@tty1.service getty-static.service'
+CONFIG:
+  trace_limit: 200
+  masterless: true
