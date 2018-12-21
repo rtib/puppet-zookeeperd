@@ -42,6 +42,15 @@ matrix:
       stage: beaker
       sudo: required
     -
+      bundler_args: --with system_tests
+      dist: trusty
+      env: PUPPET_INSTALL_TYPE=agent BEAKER_debug=true BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_set=debian-9 BEAKER_TESTMODE=apply
+      rvm: 2.5.1
+      script: bundle exec rake beaker
+      services: docker
+      stage: beaker
+      sudo: required
+    -
       env: CHECK="check:symlinks check:git_ignore check:dot_underscore check:test_file"
       stage: static
     -
