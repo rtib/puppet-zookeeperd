@@ -1,53 +1,70 @@
 ---
-sudo: required
-services:
-  - docker
 dist: trusty
 language: ruby
 cache: bundler
 before_install:
   - bundle -v
-  - rm Gemfile.lock || true
-  - gem update --system
-  - gem update bundler
+  - rm -f Gemfile.lock
+  - gem update --system $RUBYGEMS_VERSION
   - gem --version
   - bundle -v
 script:
   - 'bundle exec rake $CHECK'
+bundler_args: --without system_tests
+rvm:
+  - 2.5.1
 stages:
+  - static
   - spec
   - beaker
-  - deploy
+  -
+    if: tag =~ ^v\d
+    name: deploy
 matrix:
   fast_finish: true
   include:
-    - stage: spec
-      rvm: 2.4.2
-      env: CHECK=rubocop
-      bundler_args: --without system_tests
-    - rvm: 2.4.2
-      env: CHECK=release_checks
-      bundler_args: --without system_tests
-    - rvm: 2.1.9
-      env: CHECK=spec PUPPET_GEM_VERSION="4.7"
-      bundler_args: --without system_tests
-    - rvm: 2.1.9
-      env: CHECK=spec PUPPET_GEM_VERSION="~> 4.0"
-      bundler_args: --without system_tests
-    - rvm: 2.4.1
-      env: CHECK=spec PUPPET_GEM_VERSION="~> 5.0"
-      bundler_args: --without system_tests
-    - stage: beaker
-      rvm: 2.4.2
-      env: CHECK=beaker BEAKER_set=docker/debian-8 PUPPET_INSTALL_TYPE=agent BEAKER_debug=true
-      run_opts: "--privileged"
-    - rvm: 2.4.2
-      env: CHECK=beaker BEAKER_set=docker/ubuntu-1604 PUPPET_INSTALL_TYPE=agent BEAKER_debug=true
-      run_opts: "--privileged"
-    - stage: deploy
-      rvm: 2.4.1
-      env: CHECK=build DEPLOY_TO_FORGE=yes
-      bundler_args: --without system_tests
+    -
+      bundler_args: --with system_tests
+      dist: trusty
+      env: PUPPET_INSTALL_TYPE=agent BEAKER_debug=true BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_set=debian-8 BEAKER_TESTMODE=apply
+      rvm: 2.5.1
+      script: bundle exec rake beaker
+      services: docker
+      stage: beaker
+      sudo: required
+    -
+      bundler_args: --with system_tests
+      dist: trusty
+      env: PUPPET_INSTALL_TYPE=agent BEAKER_debug=true BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_set=ubuntu-1604 BEAKER_TESTMODE=apply
+      rvm: 2.5.1
+      script: bundle exec rake beaker
+      services: docker
+      stage: beaker
+      sudo: required
+    -
+      env: CHECK="check:symlinks check:git_ignore check:dot_underscore check:test_file"
+      stage: static
+    -
+      env: CHECK="syntax lint metadata_lint"
+      stage: static
+    -
+      env: CHECK="rubocop"
+      stage: static
+    -
+      env: PUPPET_GEM_VERSION="~> 4.0" CHECK=parallel_spec RUBYGEMS_VERSION=2.7.8
+      rvm: 2.1.9
+      stage: spec
+    -
+      env: PUPPET_GEM_VERSION="~> 5.0" CHECK=parallel_spec
+      rvm: 2.4.4
+      stage: spec
+    -
+      env: PUPPET_GEM_VERSION="~> 6.0" CHECK=parallel_spec
+      rvm: 2.5.1
+      stage: spec
+    -
+      env: DEPLOY_TO_FORGE=yes
+      stage: deploy
 branches:
   only:
     - master
@@ -58,7 +75,7 @@ deploy:
   provider: puppetforge
   user: trepasi
   password:
-    secure: CS3X5AkNNdaIpIrz7ovGvdozyShShEc/f8qk0btc0ox4e2gXcEQUZSSCawwFFd83LYeFvmlbP3+HgenUfC5Dm6QBmhpgVuhu1vjkPUHQvgwVb8Sb2rj1lyQsaE7cDN4bTmq0j+EYudc+Qj6EAhVQrHIZgBdS6jty4U6doGN2I17+/EHQpA0LCbb6V0+Ocm2pSQODzOEhFfJcCp0WNIShhuE8BdLSlVUV5Y4Ii6jZoIrbh7PIWMQsnRG3N0pv+T6j8816ahYftgWBIwj2IK6Su3//fuKYIKUPZhn2qe+EPQrhG0FA+CW3sW2ZnwcpuKVmpZTLaMDmMMl5yqbkcsWmYtj3I/QnNAR05DZ7yftzmO9mobdvx9pADX+fO4iuyRaklhCHrczxmyEIEiBRtzCQvAtT50fgrIMAwJDAzKH1uQGcSnj5xSoqs2K4USoXTqG0YmvutBoyGuI6rGx6Nez08JFIr9DesGZvtrRvKt0+Mh1Y1vIAYY6X6bpZvogeO4AavVvHjkJMC3wMGC1t+YEb4YTOYWiFgn2WNivOCumnVgTb+BX9DlxzuJtDiDjsGDibIHLnBlbFi9fNl75EulbK0dsEFUio+eVfopF/2QWrS/aKPuCUPJslIcWDrCm+Du1+WZoNCkmBQSdoHbTPq4QUGqhdYoxXzGlnoHw4FWWXTyg=
+    secure: "CS3X5AkNNdaIpIrz7ovGvdozyShShEc/f8qk0btc0ox4e2gXcEQUZSSCawwFFd83LYeFvmlbP3+HgenUfC5Dm6QBmhpgVuhu1vjkPUHQvgwVb8Sb2rj1lyQsaE7cDN4bTmq0j+EYudc+Qj6EAhVQrHIZgBdS6jty4U6doGN2I17+/EHQpA0LCbb6V0+Ocm2pSQODzOEhFfJcCp0WNIShhuE8BdLSlVUV5Y4Ii6jZoIrbh7PIWMQsnRG3N0pv+T6j8816ahYftgWBIwj2IK6Su3//fuKYIKUPZhn2qe+EPQrhG0FA+CW3sW2ZnwcpuKVmpZTLaMDmMMl5yqbkcsWmYtj3I/QnNAR05DZ7yftzmO9mobdvx9pADX+fO4iuyRaklhCHrczxmyEIEiBRtzCQvAtT50fgrIMAwJDAzKH1uQGcSnj5xSoqs2K4USoXTqG0YmvutBoyGuI6rGx6Nez08JFIr9DesGZvtrRvKt0+Mh1Y1vIAYY6X6bpZvogeO4AavVvHjkJMC3wMGC1t+YEb4YTOYWiFgn2WNivOCumnVgTb+BX9DlxzuJtDiDjsGDibIHLnBlbFi9fNl75EulbK0dsEFUio+eVfopF/2QWrS/aKPuCUPJslIcWDrCm+Du1+WZoNCkmBQSdoHbTPq4QUGqhdYoxXzGlnoHw4FWWXTyg="
   on:
     tags: true
     all_branches: true

@@ -2,8 +2,6 @@
 #
 # Facts specified here will override the values provided by rspec-puppet-facts.
 ---
+ipaddress: "172.16.254.254"
 is_pe: false
-networking:
-  ip: "172.16.254.254"
-zookeeperd:
-  myid: 2886795006
+macaddress: "AA:AA:AA:AA:AA:AA"
