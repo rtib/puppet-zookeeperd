@@ -18,7 +18,7 @@ describe 'zookeeperd class' do
     end
   end # it 'class should apply successfully on first shot'
   context 'installation complete' do
-    packages = %w[zookeeper zookeeper-bin zookeeperd].freeze
+    packages = ['zookeeper', 'zookeeper-bin', 'zookeeperd'].freeze
     packages.each do |pkg|
       describe package(pkg) do
         it { is_expected.to be_installed }

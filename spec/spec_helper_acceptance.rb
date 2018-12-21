@@ -3,7 +3,7 @@ require 'beaker/puppet_install_helper'
 require 'beaker/module_install_helper'
 require 'rspec/retry'
 
-UNSUPPORTED_PLATFORMS = %w[windows Darwin].freeze
+UNSUPPORTED_PLATFORMS = ['windows', 'Darwin'].freeze
 
 run_puppet_install_helper
 install_ca_certs unless ENV['PUPPET_INSTALL_TYPE'] =~ %r{pe}

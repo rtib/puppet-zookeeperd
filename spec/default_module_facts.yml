@@ -1,0 +1,5 @@
+---
+networking:
+  ip: "172.16.254.254"
+zookeeperd:
+  myid: 2886795006
