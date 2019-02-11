@@ -18,12 +18,7 @@
 # @param user username of zookeeper service
 # @param group groupname of zookeeper service
 # @param cfg_path path to configuration directory
-# @param tick_time zookeeper configuration parameter
-# @param init_limit zookeeper configuration parameter
-# @param sync_limit zookeeper configuration parameter
-# @param max_client_cnxns zookeeper configuration parameter
-# @param client_port zookeeper configuration parameter
-# @param force_sync zookeeper configuration parameter
+# @param config parameter to generate zoo.cfg configration file
 # @param manage_service enable puppet to manage the zookeeper serivce
 # @param service_name name of the service to control
 # @param service_enabled enable service at boot time
@@ -41,13 +36,8 @@ class zookeeperd (
   Variant[Integer,String]     $user,
   Variant[Integer,String]     $group,
   Stdlib::Absolutepath        $cfg_path,
-  # zoo.cfg general params
-  Integer                     $tick_time,
-  Integer                     $init_limit,
-  Integer                     $sync_limit,
-  Integer                     $max_client_cnxns,
-  Integer[1025,65534]         $client_port,
-  Boolean                     $force_sync,
+  # zoo.cfg
+  Hash[String, Scalar]        $config,
   # service management
   Boolean                     $manage_service,
   String                      $service_name,

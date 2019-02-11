@@ -6,14 +6,22 @@
 
 #### Table of Contents
 
-1. [Description](#description)
-2. [Setup - The basics of getting started with zookeeperd](#setup)
-    * [Setup requirements](#setup-requirements)
-    * [Beginning with zookeeperd](#beginning-with-zookeeperd)
-3. [Usage - Configuration options and additional functionality](#usage)
-4. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
-5. [Limitations - OS compatibility, etc.](#limitations)
-6. [Development - Guide for contributing to the module](#development)
+- [zookeeperd](#zookeeperd)
+      - [Table of Contents](#table-of-contents)
+  - [Description](#description)
+  - [Setup](#setup)
+    - [Setup Requirements](#setup-requirements)
+    - [Beginning with zookeeperd](#beginning-with-zookeeperd)
+  - [Usage](#usage)
+    - [Automatic cluster configuration](#automatic-cluster-configuration)
+    - [Manual configuration](#manual-configuration)
+    - [Using zookeeperd fact](#using-zookeeperd-fact)
+  - [Configuration](#configuration)
+    - [zoo.cfg](#zoocfg)
+  - [Reference](#reference)
+  - [Limitations](#limitations)
+  - [Development](#development)
+  - [Donate](#donate)
 
 ## Description
 
@@ -37,7 +45,9 @@ Install the module and its dependencies to your environment. Include the module 
 
 ## Usage
 
-To create a zookeeper cluster, the easies way is, to include the module to your manifest, enable autoconfiguration and set an ensamble name  on all nodes of the cluster.
+### Automatic cluster configuration
+
+This module enables to automatically create the configurations of zookeeper instances belonging to the same ensamble. To do so, enable autoconfiguration and set an ensamble name on all nodes of the cluster.
 
 ```puppet
 class{ zookeeperd:
@@ -46,7 +56,9 @@ class{ zookeeperd:
 }
 ````
 
-The above example will install zookeeper to all nodes this manifest applies to and configure all instances having the same ensamble name to one cluster. Note, that puppet needs at least two runs to get the configuration ready: the first run will export the node definitions, the second will collect all nodes.
+This will install zookeeper to all nodes this manifest applies to and configure all instances having the same ensamble name to one cluster. Note, that puppet needs at least two runs to get the configuration ready: the first run will export the node definitions, the second will collect all nodes. This is done by exporting ```zookeeperd::node``` resources tagged with their ensamble and collecting the same resources having the matching ensamble tag. Each ```zookeeperd::node``` resource will create one ```server``` entry in the zoo.cfg configuration telling zookeeper the list of nodes within the cluster.
+
+### Manual configuration
 
 If you don't trust your PuppetDB, or does not want stored configs on your PupppetMaster, you may add pass the list of nodes to the module through nodes parameter.
 
@@ -71,6 +83,12 @@ The module provides a custom fact which calculates a unique ID for all nodes. Th
 
 Zookeeper documentation, however, states myid must between 1..255, the software itself is treating this as unsigned long, and it is not used for any logic nor arithmetic.
 
+## Configuration
+
+### zoo.cfg
+
+The main configuration file of zookeeper, the zoo.cfg is created by taking key-value pairs from ```zookeeperd::config``` hash. The module proves default values with the minimum parameters needed for zookeeper.
+
 ## Reference
 
 The module code is documented using puppet-strings. Visit https://rtib.github.io/puppet-zookeeperd/ to access detailed code documentation.
@@ -83,10 +101,10 @@ This is where you list OS compatibility, version compatibility, etc. If there ar
 
 Puppet modules on the Puppet Forge are open projects, and community contributions are essential for keeping them great. Please follow the usual guidelines when contributing changes.
 1. fork the repository on GitHub
-1. make your improvements, preferably to a feature branch
-1. rebase your changes to the head of the master branch
-1. squash your changes into a single commit
-1. file a pull request and check the result of Travis-CI tests
+2. make your improvements, preferably to a feature branch
+3. rebase your changes to the head of the master branch
+4. squash your changes into a single commit
+5. file a pull request and check the result of Travis-CI tests
 
 ## Donate
 
