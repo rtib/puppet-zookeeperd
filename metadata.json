@@ -38,7 +38,7 @@
       "version_requirement": ">= 4.9.0 < 6.0.0"
     }
   ],
-  "pdk-version": "1.8.0",
+  "pdk-version": "1.9.0",
   "template-url": "https://github.com/rtib/pdk-templates",
-  "template-ref": "heads/master-0-g032fcb1"
+  "template-ref": "heads/master-0-g2cb26ff"
 }
