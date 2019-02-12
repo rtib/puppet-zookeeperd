@@ -6,7 +6,7 @@
 <title>
   Puppet Class: zookeeperd
   
-    &mdash; Documentation by YARD 0.9.9
+    &mdash; Documentation by YARD 0.9.18
   
 </title>
 
@@ -84,6 +84,8 @@
 
   </div>
 </div>
+
+
 <div class="tags">
   
   <div class="examples">
@@ -108,6 +110,8 @@ zookeeperd::enable_autoconfig: true</code></pre>
         <span class='type'>(<tt>Enum['present', 'absent']</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>&#39;present&#39;</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -123,6 +127,8 @@ zookeeperd::enable_autoconfig: true</code></pre>
       
         <span class='type'>(<tt>Boolean</tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
       
       
         &mdash;
@@ -140,6 +146,8 @@ zookeeperd::enable_autoconfig: true</code></pre>
         <span class='type'>(<tt>Array[String]</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>[]</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -155,6 +163,8 @@ zookeeperd::enable_autoconfig: true</code></pre>
       
         <span class='type'>(<tt>Stdlib::Absolutepath</tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>&#39;&#39;</tt>)</em>
       
       
         &mdash;
@@ -172,6 +182,8 @@ zookeeperd::enable_autoconfig: true</code></pre>
         <span class='type'>(<tt>Variant[Integer,String]</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>&#39;zookeeper&#39;</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -187,6 +199,8 @@ zookeeperd::enable_autoconfig: true</code></pre>
       
         <span class='type'>(<tt>Variant[Integer,String]</tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>&#39;zookeeper&#39;</tt>)</em>
       
       
         &mdash;
@@ -204,6 +218,8 @@ zookeeperd::enable_autoconfig: true</code></pre>
         <span class='type'>(<tt>Stdlib::Absolutepath</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>&#39;&#39;</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -214,96 +230,74 @@ zookeeperd::enable_autoconfig: true</code></pre>
   
     <li>
       
-        <span class='name'>tick_time</span>
+        <span class='name'>config</span>
       
       
-        <span class='type'>(<tt>Integer</tt>)</span>
+        <span class='type'>(<tt>Hash[String, Scalar]</tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
       
       
         &mdash;
         <div class='inline'>
-<p>zookeeper configuration parameter</p>
+<p>parameter to generate zoo.cfg configration file</p>
 </div>
       
     </li>
   
     <li>
       
-        <span class='name'>init_time</span>
-      
-      
-        <span class='type'></span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>zookeeper configuration parameter</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>sync_time</span>
-      
-      
-        <span class='type'></span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>zookeeper configuration parameter</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>max_client_cnxns</span>
-      
-      
-        <span class='type'>(<tt>Integer</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>zookeeper configuration parameter</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>client_port</span>
-      
-      
-        <span class='type'>(<tt>Integer[1025,65534]</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>zookeeper configuration parameter</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>force_sync</span>
+        <span class='name'>maintenance_service</span>
       
       
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>zookeeper configuration parameter</p>
+<p>establish the systemd units for maintenance cleanup service and its timer</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>maintenance_schedule</span>
+      
+      
+        <span class='type'>(<tt>Array[String]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>[]</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>array for timer wallclocks to schedule maintenance clienups, refer to <a
+href="https://www.freedesktop.org/software/systemd/man/systemd.time.html#Parsing%20Timestamps">systemd.time(7)#Parsing
+Timestamps</a> for details on the items of this array</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>maintenance_snapretention</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>3</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>configure the number of snapshots to be retained during cleanup</p>
 </div>
       
     </li>
@@ -315,6 +309,8 @@ zookeeperd::enable_autoconfig: true</code></pre>
       
         <span class='type'>(<tt>Boolean</tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
       
       
         &mdash;
@@ -332,6 +328,8 @@ zookeeperd::enable_autoconfig: true</code></pre>
         <span class='type'>(<tt>String</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>&#39;zookeeper&#39;</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -348,6 +346,8 @@ zookeeperd::enable_autoconfig: true</code></pre>
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -358,11 +358,13 @@ zookeeperd::enable_autoconfig: true</code></pre>
   
     <li>
       
-        <span class='name'>service_runnint</span>
+        <span class='name'>service_running</span>
       
       
-        <span class='type'></span>
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
       
       
         &mdash;
@@ -386,22 +388,6 @@ zookeeperd::enable_autoconfig: true</code></pre>
         &mdash;
         <div class='inline'>
 <p>name of the ensamble</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>enable_autoconfig</span>
-      
-      
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>enable puppet to manage cluster configuration</p>
 </div>
       
     </li>
@@ -460,39 +446,6 @@ zookeeperd::enable_autoconfig: true</code></pre>
       
     </li>
   
-    <li>
-      
-        <span class='name'>init_limit</span>
-      
-      
-        <span class='type'>(<tt>Integer</tt>)</span>
-      
-      
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>sync_limit</span>
-      
-      
-        <span class='type'>(<tt>Integer</tt>)</span>
-      
-      
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>service_running</span>
-      
-      
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-      
-    </li>
-  
 </ul>
 
 
@@ -503,7 +456,6 @@ zookeeperd::enable_autoconfig: true</code></pre>
         <pre class="lines">
 
 
-36
 37
 38
 39
@@ -537,34 +489,31 @@ zookeeperd::enable_autoconfig: true</code></pre>
 67
 68
 69
-70
-71</pre>
+70</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 36</span>
+        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 37</span>
 
 class zookeeperd (
-  Enum[&#39;present&#39;, &#39;absent&#39;]   $ensure,
-  Boolean                     $manage_packages,
-  Array[String]               $package_names,
-  Stdlib::Absolutepath        $data_dir,
-  Variant[Integer,String]     $user,
-  Variant[Integer,String]     $group,
-  Stdlib::Absolutepath        $cfg_path,
-  # zoo.cfg general params
-  Integer                     $tick_time,
-  Integer                     $init_limit,
-  Integer                     $sync_limit,
-  Integer                     $max_client_cnxns,
-  Integer[1025,65534]         $client_port,
-  Boolean                     $force_sync,
+  Enum[&#39;present&#39;, &#39;absent&#39;]   $ensure = &#39;present&#39;,
+  Boolean                     $manage_packages = true,
+  Array[String]               $package_names = [],
+  Stdlib::Absolutepath        $data_dir = &#39;&#39;,
+  Variant[Integer,String]     $user = &#39;zookeeper&#39;,
+  Variant[Integer,String]     $group = &#39;zookeeper&#39;,
+  Stdlib::Absolutepath        $cfg_path = &#39;&#39;,
+  # zoo.cfg
+  Hash[String, Scalar]        $config = {},
+  # maintenance service
+  Boolean                     $maintenance_service = true,
+  Array[String]               $maintenance_schedule = [],
+  Integer                     $maintenance_snapretention = 3,
   # service management
-  Boolean                     $manage_service,
-  String                      $service_name,
-  Boolean                     $service_enabled,
-  Boolean                     $service_running,
+  Boolean                     $manage_service = true,
+  String                      $service_name = &#39;zookeeper&#39;,
+  Boolean                     $service_enabled = true,
+  Boolean                     $service_running = true,
   # cluster configuration parameters
-  Boolean                     $enable_autoconfig,
   Optional[String]            $ensamble = undef,
   Hash                        $nodes = {},
   # Parameter having facts default
@@ -586,9 +535,7 @@ class zookeeperd (
 </div>
 
       <div id="footer">
-  Generated on Sat Sep 30 00:55:04 2017 by
-  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.9 (ruby-2.4.2).
+     Generated by <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>.
 </div>
 
     </div>

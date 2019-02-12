@@ -6,7 +6,7 @@
 <title>
   File: README
   
-    &mdash; Documentation by YARD 0.9.9
+    &mdash; Documentation by YARD 0.9.18
   
 </title>
 
@@ -65,45 +65,63 @@ src="https://travis-ci.org/rtib/puppet-zookeeperd.svg?branch=master"></a>
 <a href="https://github.com/rtib/puppet-zookeeperd/issues"><img
 src="https://img.shields.io/github/issues/rtib/puppet-zookeeperd.svg"></a>
 <a
-href="https://twitter.com/intent/tweet?text=Wow:&url=%5Bobject%20Object%5D"><img
-src="https://img.shields.io/twitter/url/https/github.com/rtib/puppet-zookeeperd.svg?style=social"></a></p>
+href="https://raw.githubusercontent.com/rtib/puppet-zookeeperd/master/LICENSE"><img
+src="https://img.shields.io/badge/license-Apache%202-blue.svg"></a></p>
 
 <h4 id="label-Table+of+Contents">Table of Contents</h4>
-<ol><li>
-<p><a href="#description">Description</a></p>
-</li><li>
-<p><a href="#setup">Setup - The basics of getting started with zookeeperd</a></p>
 <ul><li>
-<p><a href="#setup-requirements">Setup requirements</a></p>
-</li><li>
-<p><a href="#beginning-with-zookeeperd">Beginning with zookeeperd</a></p>
+<p><a href="#label-Zookeeperd">zookeeperd</a></p>
+<ul><li>
+<p><a href="#label-Table+of+contents">Table of Contents</a></p>
 </li></ul>
 </li><li>
-<p><a href="#usage">Usage - Configuration options and additional
-functionality</a></p>
+<p><a href="#label-Description">Description</a></p>
 </li><li>
-<p><a href="#reference">Reference - An under-the-hood peek at what the module
-is doing and how</a></p>
+<p><a href="#label-Setup">Setup</a></p>
+<ul><li>
+<p><a href="#label-Setup+requirements">Setup Requirements</a></p>
 </li><li>
-<p><a href="#limitations">Limitations - OS compatibility, etc.</a></p>
+<p><a href="#label-Beginning+with+zookeeperd">Beginning with zookeeperd</a></p>
+</li></ul>
 </li><li>
-<p><a href="#development">Development - Guide for contributing to the
-module</a></p>
-</li></ol>
+<p><a href="#label-Usage">Usage</a></p>
+<ul><li>
+<p><a href="#label-Automatic+cluster+configuration">Automatic cluster
+configuration</a></p>
+</li><li>
+<p><a href="#label-Manual+configuration">Manual configuration</a></p>
+</li><li>
+<p><a href="#label-Zookeeper+maintenance">Zookeeper maintenance</a></p>
+</li><li>
+<p><a href="#label-Using+zookeeperd+fact">Using zookeeperd fact</a></p>
+</li></ul>
+</li><li>
+<p><a href="#label-Configuration">Configuration</a></p>
+<ul><li>
+<p><a href="#label-Zoocfg">zoo.cfg</a></p>
+</li></ul>
+</li><li>
+<p><a href="#label-Reference">Reference</a></p>
+</li><li>
+<p><a href="#label-Limitations">Limitations</a></p>
+</li><li>
+<p><a href="#label-Development">Development</a></p>
+</li><li>
+<p><a href="#label-Donate">Donate</a></p>
+</li></ul>
 
 <h2 id="label-Description">Description</h2>
 
 <p>Yet another puppet module configuring zookeeper …</p>
 
-<p>Unique with this module are two features making zookeeper configuration
-usually very painful. First, all zookeeper nodes need a unique ID to be
-given. This module provide a custom fact which calculates a suitable ID for
-every node. Second, all zookeeper nodes need to get the list of all nodes
-belonging to its ensamble. This module enables autoconfiguration by
-exporting node definitions of every node and building the server list for
-zookeeper by collecting those exported node definitions. Utilizing both
-features will automate zookeeper configuration by taking away the most
-painful parts and eliminate the node ID and the list of servers from your
+<p>Unique with this module are two features making the usually very painful
+zookeeper configuration as easy as it can be. First, as all zookeeper nodes
+need a unique ID to be given, this module provides a custom fact which
+calculatint a suitable value. Second, all zookeeper nodes need to get the
+list of all nodes belonging to its ensamble. By making use of puppet&#39;s
+exported resource feature, node definitions are exported and collected to
+building the server list. Utilizing both features will automate zookeeper
+configuration and eliminate the node ID and the list of servers from your
 puppet manifests and hiera.</p>
 
 <h2 id="label-Setup">Setup</h2>
@@ -133,9 +151,11 @@ module, which also serve as an example.</p>
 
 <h2 id="label-Usage">Usage</h2>
 
-<p>To create a zookeeper cluster, the easies way is, to include the module to
-your manifest, enable autoconfiguration and set an ensamble name on all
-nodes of the cluster.</p>
+<h3 id="label-Automatic+cluster+configuration">Automatic cluster configuration</h3>
+
+<p>This module enables to automatically create the configurations of zookeeper
+instances belonging to the same ensamble. To do so, enable
+autoconfiguration and set an ensamble name on all nodes of the cluster.</p>
 
 <pre class="code ruby"><code class="ruby">class{ zookeeperd:
   ensamble          =&gt; &#39;Awesamly easy way to your zookeeper cluster&#39;,
@@ -143,14 +163,45 @@ nodes of the cluster.</p>
 }
 ````
 
-The above example will install zookeeper to all nodes this manifest applies to and configure all instances having the same ensamble name to one cluster. Note, that puppet needs at least two runs to get the configuration ready: the first run will export the node definitions, the second will collect all nodes.
+This will install zookeeper to all nodes this manifest applies to and configure all instances having the same ensamble name to one cluster. Note, that puppet needs at least two runs to get the configuration ready: the first run will export the node definitions, the second will collect all nodes. This is done by exporting</code></pre>
 
-If you don&#39;t trust your PuppetDB, or does not want stored configs on your PupppetMaster, you may add pass the list of nodes to the module through nodes parameter.</code></pre>
+<p>zookeeperd::node<code>resources tagged with their ensamble and collecting
+the same resources having the matching ensamble tag.
+Each</code>zookeeperd::node<code>resource will create one</code>server“`
+entry in the zoo.cfg configuration telling zookeeper the list of nodes
+within the cluster.</p>
 
-<p>puppet class{ zookeeperd:  myid =&gt; $id_of_this_node,  nodes =&gt; { 
-&#39;first&#39; =&gt; {  nodeid =&gt; 1,  nodename =&gt;
-&#39;first.zk.example.org&#39;,  },  &#39;second&#39; =&gt; {  nodeid =&gt;
-2,  nodename =&gt; &#39;first.zk.example.org&#39;,  }  } } ““</p>
+<h3 id="label-Manual+configuration">Manual configuration</h3>
+
+<p>If you don&#39;t trust your PuppetDB, or does not want stored configs on
+your PupppetMaster, you may add pass the list of nodes to the module
+through nodes parameter.</p>
+
+<pre class="code ruby"><code class="ruby">class{ zookeeperd:
+  myid  =&gt; $id_of_this_node,
+  nodes =&gt; {
+    &#39;first&#39; =&gt; {
+      nodeid =&gt; 1,
+      nodename =&gt; &#39;first.zk.example.org&#39;,
+    },
+    &#39;second&#39; =&gt; {
+      nodeid =&gt; 2,
+      nodename =&gt; &#39;first.zk.example.org&#39;,
+    }
+  }
+}
+````
+
+### Zookeeper maintenance
+
+As zookeeper needs maintenance to cleanup logs and snapshots this module provides a systemd service unit invoking the cleanup and a timer unit scheduling it. You may or may not like zookeepers internal maintenance scheduler, which you can configure via</code></pre>
+
+<p>zookeeperd::config“`.</p>
+
+<p>By default, this module will create a systemd service unit called
+<code>zookeeper-cleanup.service</code> which does the maintenance and a
+timer unit <code>zookeeper-cleanup.timer</code> triggering a previous on a
+schedule.</p>
 
 <h3 id="label-Using+zookeeperd+fact">Using zookeeperd fact</h3>
 
@@ -165,9 +216,17 @@ converting it to a 32 bit integer.</p>
 software itself is treating this as unsigned long, and it is not used for
 any logic nor arithmetic.</p>
 
+<h2 id="label-Configuration">Configuration</h2>
+
+<h3 id="label-zoo.cfg">zoo.cfg</h3>
+
+<p>The main configuration file of zookeeper, the zoo.cfg is created by taking
+key-value pairs from <code>zookeeperd::config</code> hash. The module
+proves default values with the minimum parameters needed for zookeeper.</p>
+
 <h2 id="label-Reference">Reference</h2>
 
-<p>The module code is documented with puppet-strings. Visit <a
+<p>The module code is documented using puppet-strings. Visit <a
 href="https://rtib.github.io/puppet-zookeeperd">rtib.github.io/puppet-zookeeperd</a>/
 to access detailed code documentation.</p>
 
@@ -179,26 +238,23 @@ heading here.</p>
 
 <h2 id="label-Development">Development</h2>
 
-<p>Feature requests, bug reports are welcome, pull requests are awesome.</p>
+<p>Puppet modules on the Puppet Forge are open projects, and community
+contributions are essential for keeping them great. Please follow the usual
+guidelines when contributing changes. 1. fork the repository on GitHub 2.
+make your improvements, preferably to a feature branch 3. rebase your
+changes to the head of the master branch 4. squash your changes into a
+single commit 5. file a pull request and check the result of Travis-CI
+tests</p>
 
 <h2 id="label-Donate">Donate</h2>
 
 <p>If you like this project feel free to support via Bitcoin <a
-href="bitcoin:14aHsE36fPdgc2X4envRUVH7WpRPSyf4TH?label=donate%3A%20PuppetForge%20trepasi%20zookeeperd"><img
-src="donate.png"></a></p>
-
-<h2 id="label-Release+Notes-2FContributors-2FEtc.+Optional">Release Notes/Contributors/Etc. <strong>Optional</strong></h2>
-
-<p>If you aren&#39;t using changelog, put your release notes here (though you
-should consider using changelog). You can also add any additional sections
-you feel are necessary or important to include here. Please use the
-<code>##</code> header.</p>
+href="bitcoin:3Cmcvt2zZ4owgW6SBUMXHkNvJu4mq6GoNu?label=donate%3A%20PuppetForge%20trepasi%20zookeeperd"><img
+src="https://github.com/rtib/puppet-zookeeperd/raw/master/donate.png"></a></p>
 </div></div>
 
       <div id="footer">
-  Generated on Sat Sep 30 00:55:04 2017 by
-  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.9 (ruby-2.4.2).
+     Generated by <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>.
 </div>
 
     </div>
