@@ -31,7 +31,7 @@ class zookeeperd::config {
     content => epp('zookeeperd/zoo.cfg.head.epp'),
     order   => 1,
   }
-  if $zookeeperd::enable_autoconfig {
+  if $zookeeperd::ensamble =~ String {
     @@zookeeperd::node{ "${zookeeperd::ensamble} node ${zookeeperd::nodename}":
       ensure   => $zookeeperd::ensure,
       ensamble => $zookeeperd::ensamble,
