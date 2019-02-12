@@ -47,4 +47,23 @@ class zookeeperd::config {
       * => $params,
     }
   }
+
+  $unit_ensure = [$zookeeperd::ensure, $zookeeperd::maintenance_service] ? {
+    ['present', true] => 'present',
+    default           => 'absent',
+  }
+  $timer_ensure = [$zookeeperd::ensure, $zookeeperd::maintenance_service, $zookeeperd::maintenance_schedule.length > 0] ? {
+    ['present', true, true] => 'present',
+    default                 => 'absent',
+  }
+
+  systemd::unit_file{ 'zookeeper-cleanup.service':
+    ensure  => $unit_ensure,
+    content => epp('zookeeperd/cleanup-service.epp')
+  }
+
+  systemd::unit_file{ 'zookeeper-cleanup.timer':
+    ensure  => $timer_ensure,
+    content => epp('zookeeperd/cleanup-timer.epp')
+  }
 }

@@ -3,3 +3,4 @@ networking:
   ip: "172.16.254.254"
 zookeeperd:
   myid: 2886795006
+service_provider: systemd

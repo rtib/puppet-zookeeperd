@@ -1,0 +1,20 @@
+# Managed by puppet module trepasi-zookeeperd.
+# Do not edit!
+
+<%
+  $log_dir = 'dataLogDir' in $zookeeperd::config ? {
+    true    => $zookeeperd::config['dataLogDir'],
+    default => '',
+  }
+-%>
+[Unit]
+Description=Zookeeper maintenance service for cleanup
+ConditionPathExists=<%= $zookeeperd::data_dir %>/myid
+
+[Service]
+Type=oneshot
+User=<%= $zookeeperd::user %>
+SyslogIdentifier=<%= $zookeeperd::group %>
+EnvironmentFile=/etc/zookeeper/conf/environment
+EnvironmentFile=-/etc/default/zookeeper
+ExecStart=/usr/bin/java -cp ${CLASSPATH} org.apache.zookeeper.server.PurgeTxnLog <%= $zookeeperd::data_dir %> <%= $log_dir %> -n <%= $zookeeperd::maintenance_snapretention %>

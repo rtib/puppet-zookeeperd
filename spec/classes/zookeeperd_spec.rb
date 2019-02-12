@@ -48,6 +48,22 @@ describe 'zookeeperd' do
             .with_content(%r{clientPort=2181})
             .with_content(%r{forceSync=yes})
         end
+
+        context 'add one timer' do
+          let(:params) do
+            {
+              'maintenance_schedule' => ['08:05'],
+            }
+          end
+
+          it do
+            is_expected.to contain_systemd__unit_file('zookeeper-cleanup.timer')
+              .with_content(%r{^OnCalendar=08:05$})
+            is_expected.to contain_service('zookeeper-cleanup.timer')
+              .with('ensure' => 'running',
+                    'enable' => true)
+          end
+        end
       end
     end
   end

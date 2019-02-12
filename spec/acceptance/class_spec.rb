@@ -4,7 +4,8 @@ describe 'zookeeperd class' do
   it 'class should apply successfully on first shot' do
     manifest = %(
       class { 'zookeeperd':
-        ensamble => 'Docker test cluster',
+        ensamble             => 'Docker test cluster',
+        maintenance_schedule => ['08:05'],
       }
     )
     # first apply should not log any error message
@@ -67,6 +68,13 @@ describe 'zookeeperd class' do
   context 'client port listening' do
     describe port(2181), retry: 10, retry_wait: 5 do
       it { is_expected.to be_listening.with('tcp') }
+    end
+  end
+  context 'maintenance service' do
+    describe 'systemd service' do
+      subject(:systemd_unit) { command('systemctl start zookeeper-cleanup.service') }
+
+      its(:exit_status) { is_expected.to eq 0 }
     end
   end
   # TODO: add tests here!

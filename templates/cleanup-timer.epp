@@ -1,0 +1,13 @@
+# Managed by puppet module trepasi-zookeeperd.
+# Do not edit!
+
+[Unit]
+Description=Timer to trigger Zookeeper cleanup maintenance
+
+[Timer]
+<% $zookeeperd::maintenance_schedule.each |String $value| { -%>
+OnCalendar=<%= $value %>
+<% } -%>
+
+[Install]
+WantedBy=timers.target

@@ -1,11 +1,4 @@
 ---
-zookeeperd::ensure: present
-zookeeperd::manage_packages: true
-zookeeperd::enable_autoconfig: false
-zookeeperd::manage_service: true
-zookeeperd::service_enabled: true
-zookeeperd::service_running: true
-
 zookeeperd::config:
   dataDir: "%{hiera('zookeeperd::data_dir')}"
   tickTime: 2000
