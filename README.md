@@ -15,6 +15,7 @@
   - [Usage](#usage)
     - [Automatic cluster configuration](#automatic-cluster-configuration)
     - [Manual configuration](#manual-configuration)
+    - [Zookeeper maintenance](#zookeeper-maintenance)
     - [Using zookeeperd fact](#using-zookeeperd-fact)
   - [Configuration](#configuration)
     - [zoo.cfg](#zoocfg)
@@ -78,7 +79,14 @@ class{ zookeeperd:
 }
 ````
 
+### Zookeeper maintenance
+
+As zookeeper needs maintenance to cleanup logs and snapshots this module provides a systemd service unit invoking the cleanup and a timer unit scheduling it. You may or may not like zookeepers internal maintenance scheduler, which you can configure via ```zookeeperd::config```.
+
+By default, this module will create a systemd service unit called ```zookeeper-cleanup.service``` which does the maintenance and a timer unit ```zookeeper-cleanup.timer``` triggering a previous on a schedule.
+
 ### Using zookeeperd fact
+
 The module provides a custom fact which calculates a unique ID for all nodes. This fact is available ```$facts['zookeeperd']['myid']```. The myid parameter of the module defaults to this value. The value is calculated from the IP address (```$facts['networking']['ip]```) of the node by converting it to a 32 bit integer.
 
 Zookeeper documentation, however, states myid must between 1..255, the software itself is treating this as unsigned long, and it is not used for any logic nor arithmetic.
