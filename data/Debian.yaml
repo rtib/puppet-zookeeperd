@@ -3,7 +3,6 @@ zookeeperd::package_names:
   - zookeeper
   - zookeeperd
   - zookeeper-bin
-zookeeperd::data_dir: '/var/zookeeper'
 zookeeperd::user: 'zookeeper'
 zookeeperd::group: 'zookeeper'
 zookeeperd::cfg_path: '/etc/zookeeper/conf/zoo.cfg'

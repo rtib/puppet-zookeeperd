@@ -1,13 +1,16 @@
 ---
 zookeeperd::ensure: present
 zookeeperd::manage_packages: true
-zookeeperd::tick_time: 2000
-zookeeperd::init_limit: 10
-zookeeperd::sync_limit: 5
-zookeeperd::max_client_cnxns: 500
-zookeeperd::client_port: 2181
-zookeeperd::force_sync: true
 zookeeperd::enable_autoconfig: false
 zookeeperd::manage_service: true
 zookeeperd::service_enabled: true
 zookeeperd::service_running: true
+
+zookeeperd::config:
+  dataDir: "%{hiera('zookeeperd::data_dir')}"
+  tickTime: 2000
+  initLimit: 10
+  syncLimit: 5
+  maxClientCnxns: 500
+  clientPort: 2181
+  forceSync: 'yes'
