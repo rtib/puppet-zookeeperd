@@ -31,7 +31,6 @@
 # @param service_enabled enable service at boot time
 # @param service_running ensure running of the service
 # @param ensamble name of the ensamble
-# @param enable_autoconfig enable puppet to manage cluster configuration
 # @param nodes list of nodes, if autoconfiguration disable
 # @param myid node id of zookeeper instance
 # @param nodename fqdn of this node
@@ -55,7 +54,6 @@ class zookeeperd (
   Boolean                     $service_enabled = true,
   Boolean                     $service_running = true,
   # cluster configuration parameters
-  Boolean                     $enable_autoconfig = false,
   Optional[String]            $ensamble = undef,
   Hash                        $nodes = {},
   # Parameter having facts default
