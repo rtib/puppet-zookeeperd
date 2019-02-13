@@ -6,6 +6,15 @@ docker_sets:
   - set: debian-8
   - set: ubuntu-1604
   - set: debian-9
+Rakefile:
+  changelog_user: rtib
+  changelog_project: puppet-zookeeperd
+  extras:
+    - |
+      Blacksmith::RakeTask.new do |t|
+        t.tag_message_pattern = "Release %s"
+        t.build = false
+      end
 Gemfile:
   optional:
     ':development':
