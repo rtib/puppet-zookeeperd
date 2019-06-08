@@ -12,11 +12,11 @@ script:
   - 'bundle exec rake $CHECK'
 bundler_args: --without system_tests
 rvm:
-  - 2.5.1
+  - 2.5.3
 stages:
   - static
   - spec
-  - beaker
+  - acceptance
   -
     if: tag =~ ^v\d
     name: deploy
@@ -27,28 +27,28 @@ matrix:
       bundler_args: --with system_tests
       dist: trusty
       env: PUPPET_INSTALL_TYPE=agent BEAKER_debug=true BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_set=debian-8 BEAKER_TESTMODE=apply
-      rvm: 2.5.1
+      rvm: 2.5.3
       script: bundle exec rake beaker
       services: docker
-      stage: beaker
+      stage: acceptance
       sudo: required
     -
       bundler_args: --with system_tests
       dist: trusty
       env: PUPPET_INSTALL_TYPE=agent BEAKER_debug=true BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_set=ubuntu-1604 BEAKER_TESTMODE=apply
-      rvm: 2.5.1
+      rvm: 2.5.3
       script: bundle exec rake beaker
       services: docker
-      stage: beaker
+      stage: acceptance
       sudo: required
     -
       bundler_args: --with system_tests
       dist: trusty
       env: PUPPET_INSTALL_TYPE=agent BEAKER_debug=true BEAKER_PUPPET_COLLECTION=puppet6 BEAKER_set=debian-9 BEAKER_TESTMODE=apply
-      rvm: 2.5.1
+      rvm: 2.5.3
       script: bundle exec rake beaker
       services: docker
-      stage: beaker
+      stage: acceptance
       sudo: required
     -
       env: CHECK="check:symlinks check:git_ignore check:dot_underscore check:test_file rubocop syntax lint metadata_lint"
@@ -59,7 +59,7 @@ matrix:
       stage: spec
     -
       env: PUPPET_GEM_VERSION="~> 6.0" CHECK=parallel_spec
-      rvm: 2.5.1
+      rvm: 2.5.3
       stage: spec
     -
       env: DEPLOY_TO_FORGE=yes
