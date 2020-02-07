@@ -4,12 +4,9 @@ appveyor.yml:
 .gitlab-ci.yml:
   delete: true
 mock_with: ':rspec'
+use_litmus: true
 user: trepasi
 secure: CS3X5AkNNdaIpIrz7ovGvdozyShShEc/f8qk0btc0ox4e2gXcEQUZSSCawwFFd83LYeFvmlbP3+HgenUfC5Dm6QBmhpgVuhu1vjkPUHQvgwVb8Sb2rj1lyQsaE7cDN4bTmq0j+EYudc+Qj6EAhVQrHIZgBdS6jty4U6doGN2I17+/EHQpA0LCbb6V0+Ocm2pSQODzOEhFfJcCp0WNIShhuE8BdLSlVUV5Y4Ii6jZoIrbh7PIWMQsnRG3N0pv+T6j8816ahYftgWBIwj2IK6Su3//fuKYIKUPZhn2qe+EPQrhG0FA+CW3sW2ZnwcpuKVmpZTLaMDmMMl5yqbkcsWmYtj3I/QnNAR05DZ7yftzmO9mobdvx9pADX+fO4iuyRaklhCHrczxmyEIEiBRtzCQvAtT50fgrIMAwJDAzKH1uQGcSnj5xSoqs2K4USoXTqG0YmvutBoyGuI6rGx6Nez08JFIr9DesGZvtrRvKt0+Mh1Y1vIAYY6X6bpZvogeO4AavVvHjkJMC3wMGC1t+YEb4YTOYWiFgn2WNivOCumnVgTb+BX9DlxzuJtDiDjsGDibIHLnBlbFi9fNl75EulbK0dsEFUio+eVfopF/2QWrS/aKPuCUPJslIcWDrCm+Du1+WZoNCkmBQSdoHbTPq4QUGqhdYoxXzGlnoHw4FWWXTyg=
-docker_sets:
-  - set: debian-8
-  - set: ubuntu-1604
-  - set: debian-9
 Rakefile:
   changelog_user: rtib
   changelog_project: puppet-zookeeperd
@@ -26,23 +23,3 @@ Gemfile:
         git: 'https://github.com/skywinder/github-changelog-generator'
         ref: '20ee04ba1234e9e83eb2ffb5056e23d641c7a018'
         condition: "Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.2.2')"
-  required:
-    ':system_tests':
-      - gem: 'puppet-module-posix-system-r#{minor_version}'
-        platforms: ruby
-      - gem: 'puppet-module-win-system-r#{minor_version}'
-        platforms:
-          - mswin
-          - mingw
-          - x64_mingw
-      - gem: beaker
-        version: '~> 3.13'
-        from_env: BEAKER_VERSION
-      - gem: beaker-abs
-        from_env: BEAKER_ABS_VERSION
-        version: '~> 0.1'
-      - gem: beaker-pe
-      - gem: beaker-hostgenerator
-        from_env: BEAKER_HOSTGENERATOR_VERSION
-      - gem: beaker-rspec
-        from_env: BEAKER_RSPEC_VERSION

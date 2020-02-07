@@ -42,7 +42,7 @@
       "version_requirement": ">= 5.0.0 < 7.0.0"
     }
   ],
-  "pdk-version": "1.10.0",
-  "template-url": "https://github.com/puppetlabs/pdk-templates#1.10.0",
-  "template-ref": "tags/1.10.0-0-gbba9ac3"
+  "pdk-version": "1.16.0",
+  "template-url": "https://github.com/rtib/pdk-templates#travis_warnings",
+  "template-ref": "remotes/origin/travis_warnings-0-gbda16ec"
 }
