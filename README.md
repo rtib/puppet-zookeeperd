@@ -25,7 +25,6 @@ Puppet Forge: [![Puppet Forge](https://img.shields.io/puppetforge/v/trepasi/zook
   - [Reference](#reference)
   - [Limitations](#limitations)
   - [Development](#development)
-  - [Donate](#donate)
 
 ## Description
 
@@ -111,13 +110,9 @@ This is where you list OS compatibility, version compatibility, etc. If there ar
 ## Development
 
 Puppet modules on the Puppet Forge are open projects, and community contributions are essential for keeping them great. Please follow the usual guidelines when contributing changes.
+
 1. fork the repository on GitHub
 2. make your improvements, preferably to a feature branch
 3. rebase your changes to the head of the master branch
 4. squash your changes into a single commit
 5. file a pull request and check the result of Travis-CI tests
-
-## Donate
-
-If you like this project feel free to support via Bitcoin
-[![BitCoin Wallet 3Cmcvt2zZ4owgW6SBUMXHkNvJu4mq6GoNu ](https://github.com/rtib/puppet-zookeeperd/raw/master/donate.png)](bitcoin:3Cmcvt2zZ4owgW6SBUMXHkNvJu4mq6GoNu?label=donate%3A%20PuppetForge%20trepasi%20zookeeperd)

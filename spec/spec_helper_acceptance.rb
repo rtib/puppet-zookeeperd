@@ -1,28 +1,6 @@
-require 'beaker-rspec'
-require 'beaker/puppet_install_helper'
-require 'beaker/module_install_helper'
+# frozen_string_literal: true
 
-run_puppet_install_helper
-install_ca_certs unless ENV['PUPPET_INSTALL_TYPE'].match?(%r{pe}i)
-install_module_on(hosts)
-install_module_dependencies_on(hosts)
+require 'puppet_litmus'
+require 'spec_helper_acceptance_local' if File.file?(File.join(File.dirname(__FILE__), 'spec_helper_acceptance_local.rb'))
 
-UNSUPPORTED_PLATFORMS = ['aix', 'Solaris', 'BSD'].freeze
-
-RSpec.configure do |c|
-  c.formatter = :documentation
-
-  # Configure all nodes in nodeset
-  c.before :suite do
-  end
-end
-
-shared_examples 'an idempotent resource' do
-  it 'apply with no errors' do
-    apply_manifest(manifest, catch_failures: true)
-  end
-
-  it 'apply a second time without changes', :skip_pup_5016 do
-    apply_manifest(manifest, catch_changes: true)
-  end
-end
+PuppetLitmus.configure!
