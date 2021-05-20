@@ -9,37 +9,39 @@
   "issues_url": "https://github.com/rtib/puppet-zookeeperd/issues",
   "dependencies": [
     {
-      "name": "puppetlabs-stdlib",
-      "version_requirement": ">= 5.0.0 < 6.0.0"
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 6.0.0 < 8.0.0"
     },
     {
-      "name": "puppetlabs-concat",
-      "version_requirement": ">= 5.0.0 < 6.0.0"
+      "name": "puppetlabs/concat",
+      "version_requirement": ">= 6.0.0 < 8.0.0"
     },
     {
       "name": "camptocamp/systemd",
-      "version_requirement": ">= 2.0.0 < 3.0.0"
+      "version_requirement": ">= 3.0.0 < 4.0.0"
     }
   ],
   "operatingsystem_support": [
     {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
-        "8",
-        "9"
+        "9",
+        "10"
       ]
     },
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
-        "16.04"
+        "16.04",
+        "18.04",
+        "20.04"
       ]
     }
   ],
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 5.0.0 < 7.0.0"
+      "version_requirement": ">= 6.0.0 < 8.0.0"
     }
   ],
   "pdk-version": "2.1.0",

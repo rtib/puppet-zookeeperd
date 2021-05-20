@@ -1,6 +1,7 @@
 ---
 networking:
-  ip: "172.16.254.254"
+  ip: 172.16.254.254
+  fqdn: test.example.org
 zookeeperd:
   myid: 2886795006
 service_provider: systemd
