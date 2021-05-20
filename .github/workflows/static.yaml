@@ -9,7 +9,7 @@ on:
     
 env:
   HONEYCOMB_WRITEKEY: "${{ secrets.HONEYCOMB_WRITEKEY }}"
-  HONEYCOMB_DATASET: puppet-zookeeper/static checks
+  HONEYCOMB_DATASET: puppet-zookeeper static checks
 jobs:
 
   static:
