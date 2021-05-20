@@ -1,0 +1,66 @@
+---
+name: release
+
+on: workflow_dispatch
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: setup ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+
+      - name: Prepare environment
+        run: |
+          bundle config set --local without 'system_tests'
+          bundle install
+          git config --global user.name "${{ github.workflow }} #${{ github.run_number }}"
+          git config --global user.email "${{ github.repository_owner }}@users.noreply.github.com"
+
+      - name: Update Reference.md
+        run: |
+          bundle exec rake strings:gh_pages:update
+          bundle exec rake strings:generate:reference
+
+      - name: Update Changelog.md
+        run: bundle exec rake changelog
+        env:
+          CHANGELOG_GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Check for changes
+        id: changes
+        uses: UnicornGlobal/has-changes-action@v1.0.11
+
+      - name: Commit changes and release
+        if: steps.changes.outputs.changed == 1
+        run: |
+          git add .
+          git commit -m "[GH-Action] update reference and changelog"
+          git push
+          bundle exec rake module:tag
+          git push --tags
+
+  deploy-forge:
+    name: Deploy to Forge
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+          clean: true
+      - name: "PDK Build"
+        uses: docker://puppet/pdk:nightly
+        with:
+          args: 'build'
+      - name: "Push to Forge"
+        uses: docker://puppet/pdk:nightly
+        with:
+          args: 'release publish --forge-token ${{ secrets.FORGE_API_KEY }} --force'

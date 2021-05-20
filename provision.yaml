@@ -1,7 +1,0 @@
----
-travis_deb:
-  provisioner: docker
-  images: ['litmusimage/debian:9', 'litmusimage/debian:10', 'litmusimage/ubuntu:16.04', 'litmusimage/ubuntu:18.04']
-travis_el:
-  provisioner: docker
-  images: []
