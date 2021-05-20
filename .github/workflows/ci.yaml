@@ -135,3 +135,6 @@ jobs:
 
       - name: Running acceptance tests
         run: bundle exec rake 'litmus:acceptance:parallel'
+
+      - name: Tear down test environment
+        run: bundle exec rake 'litmus:tear_down'
