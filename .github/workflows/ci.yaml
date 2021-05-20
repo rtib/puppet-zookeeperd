@@ -1,0 +1,137 @@
+---
+name: CI
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+
+env:
+  HONEYCOMB_WRITEKEY: "${{ secrets.HONEYCOMB_WRITEKEY }}"
+  HONEYCOMB_DATASET: puppet-zookeeper
+
+jobs:
+  setup_matrix:
+    name: 'Setup test matrix'
+    runs-on: ubuntu-latest
+    outputs:
+      spec_matrix: ${{ steps.get-matrix.outputs.spec_matrix }}
+      acceptance_matrix: ${{ steps.get-matrix.outputs.matrix }}
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v1
+
+      - name: Activate Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+          bundler-cache: true
+
+      - name: Get matrix
+        id: get-matrix
+        run: bundle exec matrix_from_metadata_v2
+
+  static:
+    name: Static checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: setup ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+
+      - name: Prepare environment
+        run: |
+          bundle config set --local without 'system_tests'
+          bundle install
+
+      - name: check symlinks absent
+        run: bundle exec rake check:symlinks
+
+      - name: check ignored files absent
+        run: bundle exec rake check:git_ignore
+        
+      - name: check dot_underscore files absent
+        run: bundle exec rake check:dot_underscore
+        
+      - name: check test_files
+        run: bundle exec rake check:test_file
+        
+      - name: check ruby style
+        run: bundle exec rake rubocop
+        
+      - name: check puppet syntax
+        run: bundle exec rake syntax
+
+      - name: check puppet style
+        run: bundle exec rake lint
+        
+      - name: check puppet module metadata
+        run: bundle exec rake metadata_lint
+
+  spec:
+    runs-on: ubuntu-latest
+    needs:
+      - static
+      - setup_matrix
+    strategy:
+      fail-fast: true
+      matrix: ${{ fromJson(needs.setup_matrix.outputs.spec_matrix) }}
+    env:
+      PUPPET_GEM_VERSION: "${{ matrix.puppet_version }}"
+    name: Spec tests for Puppet ${{ matrix.puppet_version }} on Ruby ${{ matrix.ruby_version }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: setup ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby_version }}
+          bundler-cache: true
+
+      - name: Prepare environment
+        run: |
+          bundle config set --local without 'system_tests'
+          bundle install
+
+      - name: Spec tests
+        run: bundle exec rake parallel_spec
+
+  acceptance:
+    needs: 
+      - spec
+      - setup_matrix
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.setup_matrix.outputs.acceptance_matrix) }}
+    name: Litmus tests for ${{ matrix.platforms.label }} with ${{ matrix.collection }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: setup ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+
+      - name: Prepare environment
+        run: |
+          bundle config set --local with 'system_tests'
+          bundle install
+
+      - name: Provision test environment
+        run: bundle exec rake 'litmus:provision[${{ matrix.platforms.provider }},${{ matrix.platforms.image }}]'
+
+      - name: Install Agent
+        run: bundle exec rake 'litmus:install_agent[${{ matrix.collection }}]'
+
+      - name: Install Module
+        run: bundle exec rake 'litmus:install_module'
+
+      - name: Running acceptance tests
+        run: bundle exec rake 'litmus:acceptance:parallel'
