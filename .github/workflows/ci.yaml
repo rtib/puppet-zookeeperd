@@ -1,13 +1,11 @@
 ---
 name: CI
 on:
-  push:
-    branches: [ main ]
   pull_request:
     branches: [ main ]
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: 0 0 * * *
 
 env:
   HONEYCOMB_WRITEKEY: "${{ secrets.HONEYCOMB_WRITEKEY }}"
@@ -34,51 +32,9 @@ jobs:
         id: get-matrix
         run: bundle exec matrix_from_metadata_v2
 
-  static:
-    name: Static checks
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: setup ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 2.7
-
-      - name: Prepare environment
-        run: |
-          bundle config set --local without 'system_tests'
-          bundle install
-
-      - name: check symlinks absent
-        run: bundle exec rake check:symlinks
-
-      - name: check ignored files absent
-        run: bundle exec rake check:git_ignore
-        
-      - name: check dot_underscore files absent
-        run: bundle exec rake check:dot_underscore
-        
-      - name: check test_files
-        run: bundle exec rake check:test_file
-        
-      - name: check ruby style
-        run: bundle exec rake rubocop
-        
-      - name: check puppet syntax
-        run: bundle exec rake syntax
-
-      - name: check puppet style
-        run: bundle exec rake lint
-        
-      - name: check puppet module metadata
-        run: bundle exec rake metadata_lint
-
   spec:
     runs-on: ubuntu-latest
-    needs:
-      - static
-      - setup_matrix
+    needs: setup_matrix
     strategy:
       fail-fast: true
       matrix: ${{ fromJson(needs.setup_matrix.outputs.spec_matrix) }}
@@ -103,9 +59,7 @@ jobs:
         run: bundle exec rake parallel_spec
 
   acceptance:
-    needs: 
-      - spec
-      - setup_matrix
+    needs: setup_matrix
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false

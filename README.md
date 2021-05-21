@@ -5,7 +5,6 @@ GitHub: [![GitHub issues](https://img.shields.io/github/issues/rtib/puppet-zooke
 
 Workflows: [![CI](https://github.com/rtib/puppet-zookeeperd/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/rtib/puppet-zookeeperd/actions/workflows/ci.yaml) [![release](https://github.com/rtib/puppet-zookeeperd/actions/workflows/release.yaml/badge.svg?branch=main)](https://github.com/rtib/puppet-zookeeperd/actions/workflows/release.yaml)
 
-
 Puppet Forge: [![Puppet Forge](https://img.shields.io/puppetforge/v/trepasi/zookeeperd.svg)](https://forge.puppet.com/trepasi/zookeeperd) [![Puppet Forge](https://img.shields.io/puppetforge/f/trepasi/zookeeperd.svg)](https://forge.puppet.com/trepasi/zookeeperd) [![Puppet Forge](https://img.shields.io/puppetforge/dt/trepasi/zookeeperd.svg)](https://forge.puppet.com/trepasi/zookeeperd)
 
 #### Table of Contents
