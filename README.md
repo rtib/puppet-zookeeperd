@@ -3,7 +3,7 @@
 
 GitHub: [![GitHub issues](https://img.shields.io/github/issues/rtib/puppet-zookeeperd.svg)](https://github.com/rtib/puppet-zookeeperd/issues) [![GitHub license](https://img.shields.io/github/license/rtib/puppet-zookeeperd.svg)](https://github.com/rtib/puppet-zookeeperd/blob/master/LICENSE) [![GitHub tag](https://img.shields.io/github/tag/rtib/puppet-zookeeperd.svg)](https://github.com/rtib/puppet-zookeeperd/releases)
 
-Workflows: [![CI](https://github.com/rtib/puppet-zookeeperd/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/rtib/puppet-zookeeperd/actions/workflows/ci.yaml) [![release](https://github.com/rtib/puppet-zookeeperd/actions/workflows/release.yaml/badge.svg?branch=main)](https://github.com/rtib/puppet-zookeeperd/actions/workflows/release.yaml)
+Workflows: [![CI](https://github.com/rtib/puppet-zookeeperd/actions/workflows/ci.yaml/badge.svg)](https://github.com/rtib/puppet-zookeeperd/actions/workflows/ci.yaml)
 
 Puppet Forge: [![Puppet Forge](https://img.shields.io/puppetforge/v/trepasi/zookeeperd.svg)](https://forge.puppet.com/trepasi/zookeeperd) [![Puppet Forge](https://img.shields.io/puppetforge/f/trepasi/zookeeperd.svg)](https://forge.puppet.com/trepasi/zookeeperd) [![Puppet Forge](https://img.shields.io/puppetforge/dt/trepasi/zookeeperd.svg)](https://forge.puppet.com/trepasi/zookeeperd)
 
