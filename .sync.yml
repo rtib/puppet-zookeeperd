@@ -5,9 +5,16 @@ appveyor.yml:
   delete: true
 .travis.yml:
   delete: true
+<<<<<<< HEAD
 mock_with: ':rspec'
 use_litmus: true
 changelog_user: rtib
+=======
+Gemfile:
+  optional:
+    ':development':
+      - gem: 'github_changelog_generator'
+>>>>>>> c5c7831... update dependecies
 Rakefile:
   extras:
     - |
@@ -15,8 +22,11 @@ Rakefile:
         t.tag_message_pattern = "Release %s"
         t.build = false
       end
+<<<<<<< HEAD
 Gemfile:
   optional:
     ':development':
       - gem: github_changelog_generator
         version: ~> 1.15
+=======
+>>>>>>> c5c7831... update dependecies
